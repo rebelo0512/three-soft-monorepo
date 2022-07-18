@@ -7,7 +7,7 @@
   "devDependencies": {},
   "scripts": {
     "build": "rm -rf dist/* && tsc -b tsconfig.pkg.json",
-    "test": "jest --runInBand --verbose"
+    "test": "jest --runInBand"
   },
   "keywords": [],
   "author": "",
