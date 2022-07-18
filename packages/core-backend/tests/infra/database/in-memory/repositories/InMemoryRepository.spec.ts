@@ -163,8 +163,8 @@ describe('InMemoryRepository Unit Test', () => {
         id: 1,
         name: 'Name Updated',
         address_number: null,
-        created_at: new Date(),
-        updated_at: new Date()
+        created_at: expect.any(Date),
+        updated_at: expect.any(Date)
       });
     });
 

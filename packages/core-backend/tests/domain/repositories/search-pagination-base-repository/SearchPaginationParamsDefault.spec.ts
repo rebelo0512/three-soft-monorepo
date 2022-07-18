@@ -1,0 +1,176 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { SearchPaginationParamsDefault } from '../../../../src';
+
+describe('SearchPaginationParamsDefault Unit Test', () => {
+  it('must test all getters', () => {
+    const searchParams = new SearchPaginationParamsDefault({
+      filter: 'id',
+      limit: 100,
+      page: 10,
+      sort: 'createdBy',
+      sortDirection: 'asc'
+    });
+
+    expect(searchParams.filter).toBe('id');
+    expect(searchParams.limit).toBe(100);
+    expect(searchParams.page).toBe(10);
+    expect(searchParams.sort).toBe('createdBy');
+    expect(searchParams.sortDirection).toBe('asc');
+    expect(searchParams.offset).toBe(900);
+  });
+
+  it('must create a new entity with no props provided', () => {
+    const searchParams = new SearchPaginationParamsDefault();
+
+    expect(searchParams).toEqual({
+      _page: 1,
+      _limit: 10,
+      _sort: null,
+      _sortDirection: null,
+      _filter: null,
+      _offset: 0
+    });
+  });
+
+  it('must create a new entity with all props', () => {
+    const searchParams = new SearchPaginationParamsDefault({
+      page: 2,
+      limit: 25,
+      filter: 'name',
+      sort: 'updatedBy',
+      sortDirection: 'desc'
+    });
+
+    expect(searchParams).toEqual({
+      _page: 2,
+      _limit: 25,
+      _sort: 'updatedBy',
+      _sortDirection: 'desc',
+      _filter: 'name',
+      _offset: 25
+    });
+  });
+
+  it('must create a new entity with not nullable props', () => {
+    const searchParams = new SearchPaginationParamsDefault({
+      page: 2,
+      limit: 25
+    });
+
+    expect(searchParams).toEqual({
+      _page: 2,
+      _limit: 25,
+      _sort: null,
+      _sortDirection: null,
+      _filter: null,
+      _offset: 25
+    });
+  });
+
+  it('must create a new entity with only nullable props', () => {
+    const searchParams = new SearchPaginationParamsDefault({
+      filter: 'id',
+      sort: 'createdBy',
+      sortDirection: 'asc'
+    });
+
+    expect(searchParams).toEqual({
+      _page: 1,
+      _limit: 10,
+      _filter: 'id',
+      _sort: 'createdBy',
+      _sortDirection: 'asc',
+      _offset: 0
+    });
+  });
+
+  it('must return page 1 if page provided is NaN or less than 0', () => {
+    const searchParams = new SearchPaginationParamsDefault({
+      page: 'a' as any
+    });
+
+    expect(searchParams.page).toBe(1);
+
+    const searchParamsTwo = new SearchPaginationParamsDefault({
+      page: -1
+    });
+
+    expect(searchParamsTwo.page).toBe(1);
+  });
+
+  it('must return limit 10 if limit provided is NaN or less than 0', () => {
+    const searchParams = new SearchPaginationParamsDefault({
+      limit: 'a' as any
+    });
+
+    expect(searchParams.limit).toBe(10);
+
+    const searchParamsTwo = new SearchPaginationParamsDefault({
+      limit: -1
+    });
+
+    expect(searchParamsTwo.limit).toBe(10);
+  });
+
+  it('must return sort null if sort provided is undefined or string empty', () => {
+    const searchParams = new SearchPaginationParamsDefault({
+      sort: ''
+    });
+
+    expect(searchParams.sort).toBeNull();
+
+    const searchParamsTwo = new SearchPaginationParamsDefault({
+      sort: undefined
+    });
+
+    expect(searchParamsTwo.sort).toBeNull();
+  });
+
+  it('must return sortDirection null if no sort is provided', () => {
+    const searchParams = new SearchPaginationParamsDefault({
+      sort: '',
+      sortDirection: 'asc'
+    });
+
+    expect(searchParams.sortDirection).toBeNull();
+  });
+
+  it('must return sortDirection asc if sortDirection provided is diff of asc or desc', () => {
+    const searchParams = new SearchPaginationParamsDefault({
+      sort: 'id',
+      sortDirection: 'different' as any
+    });
+
+    expect(searchParams.sortDirection).toBe('asc');
+  });
+
+  it('must return filter null if filter provided is undefined or string empty', () => {
+    const searchParams = new SearchPaginationParamsDefault({
+      filter: ''
+    });
+
+    expect(searchParams.filter).toBeNull();
+
+    const searchParamsTwo = new SearchPaginationParamsDefault({
+      filter: undefined
+    });
+
+    expect(searchParamsTwo.filter).toBeNull();
+  });
+
+  it('must calculate offset', () => {
+    const searchParams = new SearchPaginationParamsDefault({
+      limit: 10,
+      page: 2
+    });
+
+    expect(searchParams).toEqual({
+      _page: 2,
+      _limit: 10,
+      _sort: null,
+      _sortDirection: null,
+      _filter: null,
+      _offset: 10
+    });
+  });
+});
