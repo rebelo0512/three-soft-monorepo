@@ -23,12 +23,12 @@ describe('SearchPaginationParamsDefault Unit Test', () => {
     const searchParams = new SearchPaginationParamsDefault();
 
     expect(searchParams).toEqual({
-      _page: 1,
-      _limit: 10,
-      _sort: null,
-      _sortDirection: null,
-      _filter: null,
-      _offset: 0
+      page: 1,
+      limit: 10,
+      sort: null,
+      sortDirection: null,
+      filter: null,
+      offset: 0
     });
   });
 
@@ -42,12 +42,12 @@ describe('SearchPaginationParamsDefault Unit Test', () => {
     });
 
     expect(searchParams).toEqual({
-      _page: 2,
-      _limit: 25,
-      _sort: 'updatedBy',
-      _sortDirection: 'desc',
-      _filter: 'name',
-      _offset: 25
+      page: 2,
+      limit: 25,
+      sort: 'updatedBy',
+      sortDirection: 'desc',
+      filter: 'name',
+      offset: 25
     });
   });
 
@@ -58,12 +58,12 @@ describe('SearchPaginationParamsDefault Unit Test', () => {
     });
 
     expect(searchParams).toEqual({
-      _page: 2,
-      _limit: 25,
-      _sort: null,
-      _sortDirection: null,
-      _filter: null,
-      _offset: 25
+      page: 2,
+      limit: 25,
+      sort: null,
+      sortDirection: null,
+      filter: null,
+      offset: 25
     });
   });
 
@@ -75,12 +75,12 @@ describe('SearchPaginationParamsDefault Unit Test', () => {
     });
 
     expect(searchParams).toEqual({
-      _page: 1,
-      _limit: 10,
-      _filter: 'id',
-      _sort: 'createdBy',
-      _sortDirection: 'asc',
-      _offset: 0
+      page: 1,
+      limit: 10,
+      filter: 'id',
+      sort: 'createdBy',
+      sortDirection: 'asc',
+      offset: 0
     });
   });
 
@@ -165,12 +165,12 @@ describe('SearchPaginationParamsDefault Unit Test', () => {
     });
 
     expect(searchParams).toEqual({
-      _page: 2,
-      _limit: 10,
-      _sort: null,
-      _sortDirection: null,
-      _filter: null,
-      _offset: 10
+      page: 2,
+      limit: 10,
+      sort: null,
+      sortDirection: null,
+      filter: null,
+      offset: 10
     });
   });
 });

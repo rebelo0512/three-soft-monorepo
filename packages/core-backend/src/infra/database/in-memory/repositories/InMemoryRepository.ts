@@ -1,7 +1,7 @@
-import { IBaseRepository, EntityNotFoundError } from '../../../../';
+import { IBaseRepository, EntityNotFoundError, BaseDto } from '../../../../';
 
-export class InMemoryRepository<EntityDto> implements IBaseRepository<EntityDto> {
-  protected idField: string;
+export class InMemoryRepository<EntityDto extends BaseDto> implements IBaseRepository<EntityDto> {
+  protected idField: keyof EntityDto = 'created_at';
   protected items: EntityDto[] = [];
 
   async findAll(): Promise<EntityDto[]> {
@@ -9,7 +9,7 @@ export class InMemoryRepository<EntityDto> implements IBaseRepository<EntityDto>
   }
 
   async findById(id: number): Promise<EntityDto> {
-    const item = this.items.find((i) => i[this.idField] === id);
+    const item = this.items.find((i) => Number(i[this.idField]) === id);
     const entityValidated = this.validateEntityExist(item, id);
     return entityValidated;
   }
@@ -20,12 +20,12 @@ export class InMemoryRepository<EntityDto> implements IBaseRepository<EntityDto>
 
   async update(entity: EntityDto): Promise<void> {
     const itemIndex = this.items.findIndex((i) => i[this.idField] === entity[this.idField]);
-    this.validateNumberIsValid(itemIndex, entity[this.idField]);
+    this.validateNumberIsValid(itemIndex, Number(entity[this.idField]));
     this.items[itemIndex] = entity;
   }
 
   async delete(id: number): Promise<void> {
-    const itemIndex = this.items.findIndex((i) => i[this.idField] === id);
+    const itemIndex = this.items.findIndex((i) => Number(i[this.idField]) === id);
     this.validateNumberIsValid(itemIndex, id);
     this.items.splice(itemIndex, 1);
   }
