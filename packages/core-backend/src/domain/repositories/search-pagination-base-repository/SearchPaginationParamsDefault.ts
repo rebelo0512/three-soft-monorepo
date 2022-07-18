@@ -2,7 +2,7 @@ export type SortDirection = 'asc' | 'desc';
 
 export type SearchPaginationParamsProps<Filter> = {
   page?: number;
-  limit?: number;
+  itemsPerPage?: number;
   sort?: string | null;
   sortDirection?: SortDirection | null;
   filter?: Filter | null;
@@ -10,7 +10,7 @@ export type SearchPaginationParamsProps<Filter> = {
 
 export class SearchPaginationParamsDefault<Filter = string> {
   readonly page: number;
-  readonly limit: number;
+  readonly itemsPerPage: number;
   readonly sort: string | null;
   readonly sortDirection: SortDirection | null;
   readonly filter: Filter | null;
@@ -18,7 +18,7 @@ export class SearchPaginationParamsDefault<Filter = string> {
 
   constructor(props: SearchPaginationParamsProps<Filter> = {}) {
     this.page = this.setPage(props.page);
-    this.limit = this.setLimit(props.limit);
+    this.itemsPerPage = this.setItemsPerPage(props.itemsPerPage);
     this.sort = this.setSort(props.sort);
     this.sortDirection = this.setSortDirection(props.sortDirection);
     this.filter = this.setFilter(props.filter);
@@ -33,7 +33,7 @@ export class SearchPaginationParamsDefault<Filter = string> {
     return parseInt(String(page));
   }
 
-  private setLimit(limitValue: number | undefined) {
+  private setItemsPerPage(limitValue: number | undefined) {
     let limit = Number(limitValue);
 
     if (Number.isNaN(limit) || limit <= 0) limit = 10;
@@ -62,6 +62,6 @@ export class SearchPaginationParamsDefault<Filter = string> {
   }
 
   private setOffset() {
-    return (this.page - 1) * this.limit;
+    return (this.page - 1) * this.itemsPerPage;
   }
 }
