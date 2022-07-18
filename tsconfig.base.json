@@ -1,0 +1,19 @@
+{
+  "exclude": [
+      "tests",
+      "node_modules",
+      "dist"
+  ],
+  "compilerOptions": {
+      "target": "ES2015",
+      "module": "commonjs",
+      "strict": true,
+      "skipLibCheck": true,
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "declaration": true,
+      "paths": {
+          "@three-soft/*": ["./packages/*/"]
+      }
+  }
+}
