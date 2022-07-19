@@ -7,8 +7,8 @@
   "scripts": {
     "build": "rm -rf dist/* && tsc -b tsconfig.pkg.json",
     "test": "jest --runInBand --detectOpenHandles",
-    "test:integration": "jest --runInBand --testPathPattern=tests/integration",
-    "test:unit": "jest --runInBand --testPathPattern=tests/unit "
+    "test:integration": "jest --runInBand --detectOpenHandles --testPathPattern=tests/integration",
+    "test:unit": "jest --runInBand --detectOpenHandles --testPathPattern=tests/unit "
   },
   "keywords": [],
   "author": "",
