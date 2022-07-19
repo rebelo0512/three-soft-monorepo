@@ -1,3 +1,4 @@
+/* c8 ignore start */
 export abstract class IBaseRepository<EntityDto> {
   abstract findAll(): Promise<EntityDto[]>;
   abstract findById(id: number): Promise<EntityDto>;
@@ -5,3 +6,4 @@ export abstract class IBaseRepository<EntityDto> {
   abstract update(entity: EntityDto): Promise<void>;
   abstract delete(id: number): Promise<void>;
 }
+/* c8 ignore stop */
