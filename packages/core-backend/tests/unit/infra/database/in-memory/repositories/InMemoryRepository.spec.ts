@@ -100,8 +100,7 @@ describe('InMemoryRepository Unit Test', () => {
 
       const repository = new StubInMemoryRepository();
 
-      await repository.create(stub);
-      const stubCreated = await repository.findById(stub.id);
+      const stubCreated = await repository.create(stub);
 
       expect(stubCreated.id).toEqual(stub.id);
       expect(stubCreated).toEqual({
@@ -124,8 +123,7 @@ describe('InMemoryRepository Unit Test', () => {
 
       const repository = new StubInMemoryRepository();
 
-      await repository.create(stub);
-      const stubCreated = await repository.findById(stub.id);
+      const stubCreated = await repository.create(stub);
 
       expect(stubCreated.id).toEqual(stub.id);
       expect(stubCreated).toEqual({

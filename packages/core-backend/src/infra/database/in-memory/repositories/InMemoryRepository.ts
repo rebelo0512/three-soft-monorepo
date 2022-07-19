@@ -14,8 +14,9 @@ export class InMemoryRepository<EntityDto extends BaseDto> implements IBaseRepos
     return entityValidated;
   }
 
-  async create(entity: EntityDto): Promise<void> {
+  async create(entity: EntityDto): Promise<EntityDto> {
     this.items.push(entity);
+    return entity;
   }
 
   async update(entity: EntityDto): Promise<void> {
