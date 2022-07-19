@@ -4,7 +4,6 @@
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "devDependencies": {},
   "scripts": {
     "build": "rm -rf dist/* && tsc -b tsconfig.pkg.json",
     "test": "jest --runInBand"

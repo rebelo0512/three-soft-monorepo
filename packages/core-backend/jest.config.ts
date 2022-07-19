@@ -5,10 +5,10 @@
 
 module.exports = {
   clearMocks: true,
-  coverageProvider: "v8",
-  rootDir: "tests",
-  testRegex: ".*\\..*spec\\.ts$",
+  coverageProvider: 'v8',
+  rootDir: 'tests',
+  testRegex: '.*\\..*spec\\.ts$',
   transform: {
-    "^.+\\.ts?$": ["@swc/jest"],
-  },
+    '^.+\\.ts?$': ['@swc/jest']
+  }
 };
