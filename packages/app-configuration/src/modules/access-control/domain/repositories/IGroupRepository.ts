@@ -1,4 +1,6 @@
 import { IBaseRepository, ISearchBaseRepository } from '@three-soft/core-backend';
-import { GroupDto } from '../dtos';
+import { GroupDto, GroupSearchInputDto } from '../dtos';
 
-export type IGroupRepository = IBaseRepository<GroupDto>;
+export interface IGroupRepository extends IBaseRepository<GroupDto> {
+  search(input: GroupSearchInputDto): Promise<GroupDto[]>;
+}
