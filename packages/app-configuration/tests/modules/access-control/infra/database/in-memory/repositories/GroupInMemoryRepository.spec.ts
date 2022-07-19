@@ -66,116 +66,80 @@ describe('GroupInMemoryRepository Unit Tests', () => {
       ]);
     });
 
-    // it('must filter 1 category from 15 by prop name "Name 01"', async () => {
-    //   const repository = new CategoryInMemoryRepository();
+    it('must filter 1 group from 15 by prop name "Name 01"', async () => {
+      const repository = new GroupInMemoryRepository();
 
-    //   await createCategories(repository, 15);
+      await createGroups(repository, 15);
 
-    //   const searchProps = new CategoryRepositorySearchParams({
-    //     page: 1,
-    //     limit: 10,
-    //     filter: 'Name 01'
-    //   });
+      const searchProps = new GroupRepositorySearchParams({
+        page: 1,
+        itemsPerPage: 10,
+        filter: 'Name 01'
+      });
 
-    //   const categories = await repository.search(searchProps);
+      const categories = await repository.search(searchProps);
 
-    //   expect(categories.total).toBe(1);
-    //   expect(categories.currentPage).toBe(1);
-    //   expect(categories.items).toEqual([
-    //     {
-    //       props: {
-    //         name: 'Name 01',
-    //         isActive: true,
-    //         createdAt: expect.any(Date),
-    //         createdBy: null,
-    //         updatedAt: null,
-    //         updatedBy: null,
-    //         description: expect.any(String)
-    //       },
-    //       uniqueEntityId: { id: expect.any(String) }
-    //     }
-    //   ]);
-    // });
+      expect(categories.totalItems).toBe(1);
+      expect(categories.currentPage).toBe(1);
+      expect(categories.items).toEqual([
+        {
+          group_id: expect.any(Number),
+          group_name: 'Name 01',
+          created_at: expect.any(Date),
+          updated_at: expect.any(Date)
+        }
+      ]);
+    });
 
-    // it('must return 5 categories from 15 by prop page 2 and sorted by name with direction asc', async () => {
-    //   const repository = new CategoryInMemoryRepository();
+    it('must return 5 groups from 15 by prop page 2 and sorted by name with direction asc', async () => {
+      const repository = new GroupInMemoryRepository();
 
-    //   await createCategories(repository, 15);
+      await createGroups(repository, 15);
 
-    //   const searchProps = new CategoryRepositorySearchParams({
-    //     page: 2,
-    //     limit: 10,
-    //     filter: null,
-    //     sort: 'name',
-    //     sortDirection: 'asc'
-    //   });
+      const searchProps = new GroupRepositorySearchParams({
+        page: 2,
+        itemsPerPage: 10,
+        filter: null,
+        sort: 'name',
+        sortDirection: 'asc'
+      });
 
-    //   const categories = await repository.search(searchProps);
+      const groups = await repository.search(searchProps);
 
-    //   expect(categories.total).toBe(15);
-    //   expect(categories.currentPage).toBe(2);
-    //   expect(categories.items).toEqual([
-    //     {
-    //       props: {
-    //         name: 'Name 11',
-    //         isActive: true,
-    //         createdAt: expect.any(Date),
-    //         createdBy: null,
-    //         updatedAt: null,
-    //         updatedBy: null,
-    //         description: expect.any(String)
-    //       },
-    //       uniqueEntityId: { id: expect.any(String) }
-    //     },
-    //     {
-    //       props: {
-    //         name: 'Name 12',
-    //         isActive: true,
-    //         createdAt: expect.any(Date),
-    //         createdBy: null,
-    //         updatedAt: null,
-    //         updatedBy: null,
-    //         description: expect.any(String)
-    //       },
-    //       uniqueEntityId: { id: expect.any(String) }
-    //     },
-    //     {
-    //       props: {
-    //         name: 'Name 13',
-    //         isActive: true,
-    //         createdAt: expect.any(Date),
-    //         createdBy: null,
-    //         updatedAt: null,
-    //         updatedBy: null,
-    //         description: expect.any(String)
-    //       },
-    //       uniqueEntityId: { id: expect.any(String) }
-    //     },
-    //     {
-    //       props: {
-    //         name: 'Name 14',
-    //         isActive: true,
-    //         createdAt: expect.any(Date),
-    //         createdBy: null,
-    //         updatedAt: null,
-    //         updatedBy: null,
-    //         description: expect.any(String)
-    //       },
-    //       uniqueEntityId: { id: expect.any(String) }
-    //     },
-    //     {
-    //       props: {
-    //         name: 'Name 15',
-    //         isActive: true,
-    //         createdAt: expect.any(Date),
-    //         createdBy: null,
-    //         updatedAt: null,
-    //         updatedBy: null,
-    //         description: expect.any(String)
-    //       },
-    //       uniqueEntityId: { id: expect.any(String) }
-    //     }
-    //   ]);
-    // });
+      expect(groups.totalItems).toBe(15);
+      expect(groups.currentPage).toBe(2);
+      expect(groups.items).toEqual([
+        {
+          group_id: expect.any(Number),
+          group_name: 'Name 11',
+          created_at: expect.any(Date),
+          updated_at: expect.any(Date)
+        },
+        {
+          group_id: expect.any(Number),
+          group_name: 'Name 12',
+          created_at: expect.any(Date),
+          updated_at: expect.any(Date)
+        },
+        {
+          group_id: expect.any(Number),
+          group_name: 'Name 13',
+          created_at: expect.any(Date),
+          updated_at: expect.any(Date)
+        },
+        {
+          group_id: expect.any(Number),
+          group_name: 'Name 14',
+          created_at: expect.any(Date),
+          updated_at: expect.any(Date)
+        },
+        {
+          group_id: expect.any(Number),
+          group_name: 'Name 15',
+          created_at: expect.any(Date),
+          updated_at: expect.any(Date)
+        }
+      ]);
+    });
   });
 });
