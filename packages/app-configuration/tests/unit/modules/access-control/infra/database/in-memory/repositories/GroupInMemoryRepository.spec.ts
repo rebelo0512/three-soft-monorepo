@@ -1,5 +1,5 @@
-import { GroupInMemoryRepository, GroupRepositorySearchParams } from '../../../../../../../src';
-import { createGroups } from '../../../../../../helpers';
+import { GroupInMemoryRepository, GroupRepositorySearchParams } from '../../../../../../../../src';
+import { createGroups } from '../../../../../../../helpers';
 
 describe('GroupInMemoryRepository Unit Tests', () => {
   describe('search', () => {

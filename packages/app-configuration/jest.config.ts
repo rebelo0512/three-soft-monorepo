@@ -3,7 +3,8 @@
  * https://jestjs.io/docs/configuration
  */
 
-module.exports = {
+export default {
+  displayName: 'app-configuration',
   clearMocks: true,
   coverageProvider: 'v8',
   rootDir: 'tests',
