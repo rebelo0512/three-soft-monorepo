@@ -6,6 +6,7 @@ interface StubDto extends BaseDto {
 }
 
 class StubSearchRepository extends SearchPaginationInMemoryRepository<StubDto> {
+  idField: keyof StubDto = 'id';
   sortableFields: (keyof StubDto)[] = ['id', 'name'];
 
   protected async applyFilter(items: StubDto[], filter: string | null): Promise<StubDto[]> {

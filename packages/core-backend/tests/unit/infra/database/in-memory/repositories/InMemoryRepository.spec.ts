@@ -7,7 +7,7 @@ interface StubDto extends BaseDto {
 }
 
 class StubInMemoryRepository extends InMemoryRepository<StubDto> {
-  protected idField: keyof StubDto = 'id';
+  idField: keyof StubDto = 'id';
 }
 
 describe('InMemoryRepository Unit Test', () => {
@@ -91,7 +91,7 @@ describe('InMemoryRepository Unit Test', () => {
   describe('create', () => {
     it('must create a new entity with required props', async () => {
       const stub: StubDto = {
-        id: 1,
+        id: 0,
         name: 'Name 01',
         address_number: null,
         created_at: new Date(),
@@ -102,7 +102,6 @@ describe('InMemoryRepository Unit Test', () => {
 
       const stubCreated = await repository.create(stub);
 
-      expect(stubCreated.id).toEqual(stub.id);
       expect(stubCreated).toEqual({
         id: 1,
         name: 'Name 01',
@@ -114,7 +113,7 @@ describe('InMemoryRepository Unit Test', () => {
 
     it('must create a new entity with all props', async () => {
       const stub: StubDto = {
-        id: 1,
+        id: 0,
         name: 'Name 01',
         address_number: 150,
         created_at: new Date(),
@@ -125,7 +124,6 @@ describe('InMemoryRepository Unit Test', () => {
 
       const stubCreated = await repository.create(stub);
 
-      expect(stubCreated.id).toEqual(stub.id);
       expect(stubCreated).toEqual({
         id: 1,
         name: 'Name 01',

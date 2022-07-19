@@ -1,7 +1,7 @@
 import { IBaseRepository, EntityNotFoundError, BaseDto } from '../../../../';
 
 export class InMemoryRepository<EntityDto extends BaseDto> implements IBaseRepository<EntityDto> {
-  protected idField: keyof EntityDto = 'created_at';
+  idField: keyof EntityDto = 'created_at';
   protected items: EntityDto[] = [];
 
   async findAll(): Promise<EntityDto[]> {
@@ -15,8 +15,9 @@ export class InMemoryRepository<EntityDto extends BaseDto> implements IBaseRepos
   }
 
   async create(entity: EntityDto): Promise<EntityDto> {
-    this.items.push(entity);
-    return entity;
+    const item = { ...entity, [this.idField]: this.items.length + 1 };
+    this.items.push(item);
+    return item;
   }
 
   async update(entity: EntityDto): Promise<void> {
