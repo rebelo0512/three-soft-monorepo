@@ -3,6 +3,8 @@ import { IGroupRepository } from '../../../../';
 import { GroupDto } from '../../../../domain';
 
 export class GroupInMemoryRepository extends SearchPaginationInMemoryRepository<GroupDto> implements IGroupRepository {
+  idField: keyof GroupDto = 'group_id';
+
   protected async applyFilter(groups: GroupDto[], filter: string): Promise<GroupDto[]> {
     if (!filter) {
       return groups;
