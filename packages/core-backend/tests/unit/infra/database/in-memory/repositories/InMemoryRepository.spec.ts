@@ -1,4 +1,4 @@
-import { BaseDto, InMemoryRepository } from '../../../../../src';
+import { BaseDto, InMemoryRepository } from '../../../../../../src';
 
 interface StubDto extends BaseDto {
   id: number;
@@ -7,7 +7,7 @@ interface StubDto extends BaseDto {
 }
 
 class StubInMemoryRepository extends InMemoryRepository<StubDto> {
-  protected idField: string = 'id';
+  protected idField: keyof StubDto = 'id';
 }
 
 describe('InMemoryRepository Unit Test', () => {

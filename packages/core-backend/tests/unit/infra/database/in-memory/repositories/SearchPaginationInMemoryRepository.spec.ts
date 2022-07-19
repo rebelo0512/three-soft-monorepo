@@ -1,4 +1,4 @@
-import { SearchPaginationInMemoryRepository, SearchPaginationParamsDefault, BaseDto } from '../../../../../src';
+import { SearchPaginationInMemoryRepository, SearchPaginationParamsDefault, BaseDto } from '../../../../../../src';
 
 interface StubDto extends BaseDto {
   id: number;

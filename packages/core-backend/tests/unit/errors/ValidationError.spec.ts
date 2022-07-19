@@ -1,4 +1,4 @@
-import { ValidationError } from '../../src';
+import { ValidationError } from '../../../src';
 
 describe('ValidationError Unit Tests', () => {
   it('must throw the error', function () {

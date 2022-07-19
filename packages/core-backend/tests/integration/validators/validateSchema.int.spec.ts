@@ -1,5 +1,5 @@
 import { object, number, string, date } from 'yup';
-import { BaseDto, validateSchema } from '../../src';
+import { BaseDto, validateSchema } from '../../../src';
 
 interface StubDto extends BaseDto {
   id: number;
@@ -13,7 +13,7 @@ const stubSchema = object().shape({
   updated_at: date().optional().default(new Date())
 });
 
-describe('validateSchema Unit Test', () => {
+describe('validateSchema Integration Test', () => {
   it('should validate the schema and return it', async () => {
     const stubDto = await validateSchema<StubDto>(stubSchema, { id: 1, name: 'Name 01' });
 

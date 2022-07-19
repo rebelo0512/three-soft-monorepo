@@ -1,4 +1,4 @@
-import { EntityNotFoundError } from '../../src';
+import { EntityNotFoundError } from '../../../src';
 
 describe('EntityNotFoundError Unit Tests', () => {
   it('must throw the error', function () {

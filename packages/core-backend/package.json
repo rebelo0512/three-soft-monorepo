@@ -6,7 +6,9 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "rm -rf dist/* && tsc -b tsconfig.pkg.json",
-    "test": "jest --runInBand"
+    "test": "jest --runInBand --detectOpenHandles",
+    "test:integration": "jest --runInBand --testPathPattern=tests/integration",
+    "test:unit": "jest --runInBand --testPathPattern=tests/unit "
   },
   "keywords": [],
   "author": "",

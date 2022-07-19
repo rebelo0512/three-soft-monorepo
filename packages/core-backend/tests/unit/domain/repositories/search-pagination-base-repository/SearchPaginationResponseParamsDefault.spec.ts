@@ -1,4 +1,4 @@
-import { BaseDto, SearchPaginationResponseDefault } from '../../../../src';
+import { BaseDto, SearchPaginationResponseDefault } from '../../../../../src';
 
 interface StubDto extends BaseDto {
   id: number;

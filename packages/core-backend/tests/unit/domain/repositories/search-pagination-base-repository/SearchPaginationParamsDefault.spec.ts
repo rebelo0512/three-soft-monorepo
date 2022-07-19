@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { SearchPaginationParamsDefault } from '../../../../src';
+import { SearchPaginationParamsDefault } from '../../../../../src';
 
 describe('SearchPaginationParamsDefault Unit Test', () => {
   it('must test all getters', () => {
