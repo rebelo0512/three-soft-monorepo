@@ -6,10 +6,13 @@
 export default {
   displayName: 'app-configuration',
   clearMocks: true,
-  coverageProvider: 'v8',
-  rootDir: 'tests',
   testRegex: '.*\\..*spec\\.ts$',
   transform: {
     '^.+\\.ts?$': ['@swc/jest']
-  }
+  },
+  moduleFileExtensions: ['ts', 'js', 'html'],
+  coverageProvider: 'v8',
+  coverageDirectory: '../../__coverage__/app-configuration',
+  coverageReporters: ['json', 'lcov', 'text'],
+  coveragePathIgnorePatterns: ['node_modules', 'index.ts', '.module.ts', 'tests/helpers']
 };
