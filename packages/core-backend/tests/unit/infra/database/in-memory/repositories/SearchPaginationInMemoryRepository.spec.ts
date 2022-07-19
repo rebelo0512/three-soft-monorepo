@@ -30,7 +30,7 @@ async function createStubs(repository: StubSearchRepository, total: number) {
 }
 
 describe('SearchPaginationInMemoryRepository Unit Tests', () => {
-  describe('search', () => {
+  describe('searchPagination', () => {
     it('must filter by word "1" and return 5 stubs from 13 based on name and with sort direction to asc', async () => {
       const repository = new StubSearchRepository();
 
@@ -42,7 +42,7 @@ describe('SearchPaginationInMemoryRepository Unit Tests', () => {
         filter: '1'
       });
 
-      const stubs = await repository.search(searchProps);
+      const stubs = await repository.searchPagination(searchProps);
 
       expect(stubs.currentPage).toBe(1);
       expect(stubs.totalItems).toBe(5);
@@ -93,7 +93,7 @@ describe('SearchPaginationInMemoryRepository Unit Tests', () => {
         sortDirection: 'desc'
       });
 
-      const stubs = await repository.search(searchProps);
+      const stubs = await repository.searchPagination(searchProps);
 
       expect(stubs.currentPage).toBe(1);
       expect(stubs.totalItems).toBe(10);
@@ -173,7 +173,7 @@ describe('SearchPaginationInMemoryRepository Unit Tests', () => {
         sortDirection: 'desc'
       });
 
-      const stubs = await repository.search(props);
+      const stubs = await repository.searchPagination(props);
 
       expect(stubs.currentPage).toBe(1);
       expect(stubs.totalItems).toBe(13);
@@ -253,7 +253,7 @@ describe('SearchPaginationInMemoryRepository Unit Tests', () => {
         sortDirection: 'asc'
       });
 
-      const stubs = await repository.search(props);
+      const stubs = await repository.searchPagination(props);
 
       expect(stubs.currentPage).toBe(2);
       expect(stubs.totalItems).toBe(13);
@@ -291,7 +291,7 @@ describe('SearchPaginationInMemoryRepository Unit Tests', () => {
         sortDirection: 'desc'
       });
 
-      const stubs = await repository.search(props);
+      const stubs = await repository.searchPagination(props);
 
       expect(stubs.currentPage).toBe(2);
       expect(stubs.totalItems).toBe(13);
@@ -329,7 +329,7 @@ describe('SearchPaginationInMemoryRepository Unit Tests', () => {
         sortDirection: 'desc'
       });
 
-      const stubs = await repository.search(props);
+      const stubs = await repository.searchPagination(props);
 
       expect(stubs.currentPage).toBe(1);
       expect(stubs.totalItems).toBe(3);

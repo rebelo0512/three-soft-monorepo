@@ -12,7 +12,7 @@ export abstract class SearchPaginationInMemoryRepository<EntityDto extends BaseD
 {
   sortableFields: Array<keyof EntityDto> = ['created_at'];
 
-  async search(props: SearchPaginationParamsDefault): Promise<SearchPaginationResponseDefault<EntityDto>> {
+  async searchPagination(props: SearchPaginationParamsDefault): Promise<SearchPaginationResponseDefault<EntityDto>> {
     const itemsFiltered = await this.applyFilter(this.items, props.filter);
 
     const itemsSorted = await this.applySort(itemsFiltered, props.sort as keyof EntityDto, props.sortDirection);

@@ -8,5 +8,5 @@ export interface ISearchBaseRepository<
   SearchResponse = SearchPaginationResponseDefault<EntityDto>
 > extends IBaseRepository<EntityDto> {
   sortableFields: Array<keyof EntityDto>;
-  search(params: SearchParams): Promise<SearchResponse>;
+  searchPagination(params: SearchParams): Promise<SearchResponse>;
 }
