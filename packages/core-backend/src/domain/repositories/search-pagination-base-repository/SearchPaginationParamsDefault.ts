@@ -9,12 +9,12 @@ export type SearchPaginationParamsProps<Filter> = {
 };
 
 export class SearchPaginationParamsDefault<Filter = string> {
-  readonly page: number;
-  readonly itemsPerPage: number;
-  readonly sort: string | null;
-  readonly sortDirection: SortDirection | null;
-  readonly filter: Filter | null;
-  readonly offset: number;
+  public page: number;
+  public itemsPerPage: number;
+  public sort: string | null;
+  public sortDirection: SortDirection | null;
+  public filter: Filter | null;
+  public offset: number;
 
   constructor(props: SearchPaginationParamsProps<Filter> = {}) {
     this.page = this.setPage(props.page);
