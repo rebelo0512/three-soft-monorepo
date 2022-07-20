@@ -6,6 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "rm -rf dist/* && tsc -b tsconfig.pkg.json",
+    "lint": "eslint .  --no-fix --max-warnings 0",
     "test": "jest --runInBand --detectOpenHandles --verbose",
     "test:coverage": "jest --runInBand --detectOpenHandles --verbose --coverage",
     "test:integration": "jest --testPathPattern=tests/integration --runInBand --detectOpenHandles --verbose",
