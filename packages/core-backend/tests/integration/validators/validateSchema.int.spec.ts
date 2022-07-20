@@ -26,18 +26,18 @@ describe('validateSchema Integration Test', () => {
   });
 
   it('should throw error when one prop is invalid', async () => {
-    await expect(
-      async () => await validateSchema<StubDto>(stubSchema, { id: 'to thro error', name: 'Name 01' })
+    await expect(async () =>
+      validateSchema<StubDto>(stubSchema, { id: 'to thro error', name: 'Name 01' })
     ).rejects.toThrowError(
       'Error: id must be a `number` type, but the final value was: `NaN` (cast from the value `"to thro error"`).'
     );
   });
 
   it('should throw error when many props is invalid', async () => {
-    await expect(
-      async () =>
-        await validateSchema<StubDto>(stubSchema, { id: 'to thro error', name: true, created_at: 'to throw error' })
+    await expect(async () =>
+      validateSchema<StubDto>(stubSchema, { id: 'to thro error', name: true, created_at: 'to throw error' })
     ).rejects.toThrowError(
+      // eslint-disable-next-line max-len
       'Error: id must be a `number` type, but the final value was: `NaN` (cast from the value `"to thro error"`).,created_at must be a `date` type, but the final value was: `Invalid Date` (cast from the value `"to throw error"`).'
     );
   });

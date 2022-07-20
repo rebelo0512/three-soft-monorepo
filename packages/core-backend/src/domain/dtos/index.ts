@@ -1,1 +1,1 @@
-export * from "./BaseDto";
+export * from './BaseDto';

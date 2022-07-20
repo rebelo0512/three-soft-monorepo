@@ -84,7 +84,7 @@ describe('InMemoryRepository Unit Test', () => {
     it('must throw error when entity not found', async () => {
       const repository = new StubInMemoryRepository();
 
-      await expect(async () => repository.findById(0)).rejects.toThrowError('Entidade não encontrada pelo id: 0');
+      await expect(async () => repository.findById(0)).rejects.toThrowError('Entidade não encontrada pelo(a) id: 0');
     });
   });
 
@@ -194,10 +194,10 @@ describe('InMemoryRepository Unit Test', () => {
       });
     });
 
-    it('must throw error when try to delete a entity not exist', async () => {
+    it('must throw error when try to update a entity not exist', async () => {
       const repository = new StubInMemoryRepository();
 
-      expect(async () => repository.delete(0)).rejects.toThrowError('Entidade não encontrada pelo id: 0');
+      expect(async () => repository.delete(0)).rejects.toThrowError('Entidade não encontrada pelo(a) id: 0');
     });
   });
 
@@ -236,7 +236,7 @@ describe('InMemoryRepository Unit Test', () => {
     it('must throw error when try to delete a entity not exist', async () => {
       const repository = new StubInMemoryRepository();
 
-      expect(async () => repository.delete(0)).rejects.toThrowError('Entidade não encontrada pelo id: 0');
+      expect(async () => repository.delete(0)).rejects.toThrowError('Entidade não encontrada pelo(a) id: 0');
     });
   });
 });

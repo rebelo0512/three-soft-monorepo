@@ -3,7 +3,7 @@ export function generateString(totalLength: number) {
 
   let result = ' ';
   const charactersLength = characters.length;
-  for (let count = 0; count < totalLength; count++) {
+  for (let count = 0; count < totalLength; count += 1) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
 

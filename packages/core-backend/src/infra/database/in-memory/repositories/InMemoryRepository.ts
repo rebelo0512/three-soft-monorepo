@@ -1,4 +1,4 @@
-import { IBaseRepository, EntityNotFoundError, BaseDto } from '../../../../';
+import { IBaseRepository, EntityNotFoundError, BaseDto } from '../../../..';
 
 export class InMemoryRepository<EntityDto extends BaseDto> implements IBaseRepository<EntityDto> {
   idField: keyof EntityDto = 'created_at';

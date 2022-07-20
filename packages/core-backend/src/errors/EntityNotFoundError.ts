@@ -1,6 +1,6 @@
 export class EntityNotFoundError extends Error {
-  constructor(id: number) {
-    super(`Entidade não encontrada pelo id: ${id}`);
+  constructor(value: string | number, field = 'id') {
+    super(`Entidade não encontrada pelo(a) ${field}: ${value}`);
     this.name = EntityNotFoundError.name;
   }
 }

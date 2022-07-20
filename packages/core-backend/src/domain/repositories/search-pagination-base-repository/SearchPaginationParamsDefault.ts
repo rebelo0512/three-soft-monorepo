@@ -30,7 +30,7 @@ export class SearchPaginationParamsDefault<Filter = string> {
 
     if (Number.isNaN(page) || page <= 0) page = 1;
 
-    return parseInt(String(page));
+    return parseInt(String(page), 10);
   }
 
   private setItemsPerPage(limitValue: number | undefined) {
@@ -38,7 +38,7 @@ export class SearchPaginationParamsDefault<Filter = string> {
 
     if (Number.isNaN(limit) || limit <= 0) limit = 10;
 
-    return parseInt(String(limit));
+    return parseInt(String(limit), 10);
   }
 
   private setSort(sortValue: string | null | undefined) {

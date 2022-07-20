@@ -19,14 +19,18 @@ class StubSearchRepository extends SearchPaginationInMemoryRepository<StubDto> {
 }
 
 async function createStubs(repository: StubSearchRepository, total: number) {
-  for (let index = 0; index < total; index++) {
-    await repository.create({
-      id: index + 1,
-      name: `Name ${String(index + 1).padStart(2, '0')}`,
-      created_at: new Date(),
-      updated_at: new Date()
-    });
+  const promises: Array<Promise<StubDto>> = [];
+  for (let index = 0; index < total; index += 1) {
+    promises.push(
+      repository.create({
+        id: index + 1,
+        name: `Name ${String(index + 1).padStart(2, '0')}`,
+        created_at: new Date(),
+        updated_at: new Date()
+      })
+    );
   }
+  await Promise.all(promises);
 }
 
 describe('SearchPaginationInMemoryRepository Unit Tests', () => {
