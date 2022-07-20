@@ -12,6 +12,7 @@
   "plugins": ["@typescript-eslint", "import-helpers", "prettier"],
   "ignorePatterns": ["*.js", "*.d.ts"],
   "rules": {
+    "camelcase": "off",
     "import/extensions": "off",
     "max-len": [
       2,
