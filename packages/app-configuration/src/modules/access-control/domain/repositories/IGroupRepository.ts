@@ -1,4 +1,4 @@
-import { IBaseRepository, ISearchBaseRepository } from '@three-soft/core-backend';
+import { IBaseRepository } from '@three-soft/core-backend';
 import { GroupDto, GroupSearchInputDto } from '../dtos';
 
 export interface IGroupRepository extends IBaseRepository<GroupDto> {

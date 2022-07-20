@@ -46,7 +46,7 @@ describe('GroupCreateUseCase Unit Tests', () => {
     ];
 
     const promises = arrayToThrow.map(async ({ value, message }) => {
-      await expect(async () => await groupCreateUseCase.execute({ name: value as any })).rejects.toThrowError(message);
+      await expect(async () => groupCreateUseCase.execute({ name: value as never })).rejects.toThrowError(message);
     });
 
     await Promise.all(promises);

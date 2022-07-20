@@ -15,12 +15,16 @@ export async function createGroup(repository: IGroupRepository, id: number, prop
 }
 
 export async function createGroups(repository: IGroupRepository, total: number) {
-  for (let index = 0; index < total; index++) {
-    await repository.create({
-      group_id: index + 1,
-      group_name: `Name ${String(index + 1).padStart(2, '0')}`,
-      created_at: new Date(),
-      updated_at: new Date()
-    });
+  const promises = [];
+  for (let index = 0; index < total; index += 1) {
+    promises.push(
+      repository.create({
+        group_id: index + 1,
+        group_name: `Name ${String(index + 1).padStart(2, '0')}`,
+        created_at: new Date(),
+        updated_at: new Date()
+      })
+    );
   }
+  await Promise.all(promises);
 }

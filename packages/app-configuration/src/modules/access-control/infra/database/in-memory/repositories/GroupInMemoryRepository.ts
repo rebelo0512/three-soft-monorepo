@@ -1,5 +1,5 @@
 import { SearchPaginationInMemoryRepository } from '@three-soft/core-backend';
-import { IGroupRepository } from '../../../../';
+import { IGroupRepository } from '../../../..';
 import { GroupDto, GroupSearchInputDto } from '../../../../domain';
 
 export class GroupInMemoryRepository extends SearchPaginationInMemoryRepository<GroupDto> implements IGroupRepository {
