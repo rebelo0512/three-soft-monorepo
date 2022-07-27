@@ -34,15 +34,15 @@ export class InMemoryRepository<EntityDto extends BaseDto> implements IBaseRepos
 
   /* #region Private Methods */
 
-  private validateEntityExist(entity: EntityDto | undefined, id: number) {
+  protected validateEntityExist(entity: EntityDto | undefined, value: number | string, field = 'id') {
     if (entity === null || entity === undefined) {
-      throw new EntityNotFoundError(id);
+      throw new EntityNotFoundError(value, field);
     }
 
     return entity;
   }
 
-  private validateNumberIsValid(entity: EntityDto | number, id: number) {
+  protected validateNumberIsValid(entity: EntityDto | number, id: number) {
     if (typeof entity === 'number' && entity === -1) {
       throw new EntityNotFoundError(id);
     }
