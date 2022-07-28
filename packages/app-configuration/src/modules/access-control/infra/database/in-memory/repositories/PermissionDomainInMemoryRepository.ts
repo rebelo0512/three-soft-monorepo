@@ -2,15 +2,15 @@ import { EntityNotFoundError } from '@three-soft/core-backend';
 import {
   IPermissionDomainRepository,
   PermissionDomainDto,
-  PermissionDomainFindAllSystemsOutputDto,
-  PermissionDomainFindBySystemNameAndNameInputDto
+  PermissionDomainRepositoryFindAllSystemsOutput,
+  PermissionDomainRepositoryFindBySystemNameAndNameInput
 } from '../../../../domain';
 
 export class PermissionDomainInMemoryRepository implements IPermissionDomainRepository {
   idField: keyof PermissionDomainDto = 'perm_dom_id';
   private items: PermissionDomainDto[] = [];
 
-  async findAllSystems(): Promise<PermissionDomainFindAllSystemsOutputDto[]> {
+  async findAllSystems(): Promise<PermissionDomainRepositoryFindAllSystemsOutput[]> {
     return this.items.reduce((acc, item) => {
       const existingSystem = acc.find((system) => system.perm_system_name === item.perm_system_name);
 
@@ -19,7 +19,7 @@ export class PermissionDomainInMemoryRepository implements IPermissionDomainRepo
       }
 
       return acc;
-    }, [] as PermissionDomainFindAllSystemsOutputDto[]);
+    }, [] as PermissionDomainRepositoryFindAllSystemsOutput[]);
   }
 
   async findById(id: number): Promise<PermissionDomainDto> {
@@ -37,7 +37,7 @@ export class PermissionDomainInMemoryRepository implements IPermissionDomainRepo
   async findBySystemNameAndName({
     name,
     system_name
-  }: PermissionDomainFindBySystemNameAndNameInputDto): Promise<PermissionDomainDto> {
+  }: PermissionDomainRepositoryFindBySystemNameAndNameInput): Promise<PermissionDomainDto> {
     const item = this.items.find((i) => i.perm_system_name === system_name && i.perm_dom_name === name);
     const entityValidated = this.validateEntityExist(item, 'nome', name);
     return entityValidated;

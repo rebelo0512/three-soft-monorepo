@@ -1,15 +1,19 @@
 import { InMemoryRepository } from '@three-soft/core-backend';
-import { IPermissionRepository, PermissionDto } from '../../../../domain';
+import {
+  IPermissionRepository,
+  PermissionDto,
+  PermissionRepositoryFindAllBySystemNameAndDomainNameInput
+} from '../../../../domain';
 
 export class PermissionInMemoryRepository extends InMemoryRepository<PermissionDto> implements IPermissionRepository {
   idField: keyof PermissionDto = 'perm_id';
   protected items: PermissionDto[] = [];
 
-  async findByDomainName(domain_name: string): Promise<PermissionDto[]> {
+  async findAllByDomainName(domain_name: string): Promise<PermissionDto[]> {
     return this.items.filter((i) => i.perm_dom_name === domain_name && !i.perm_sub_dom_name);
   }
 
-  async findBySubDomainName(sub_domain: string): Promise<PermissionDto[]> {
+  async findAllBySubDomainName(sub_domain: string): Promise<PermissionDto[]> {
     return this.items.filter((i) => i.perm_sub_dom_name === sub_domain);
   }
 
@@ -17,6 +21,12 @@ export class PermissionInMemoryRepository extends InMemoryRepository<PermissionD
     const itemsFiltered = this.filterItemsByDomainId(domain_id);
 
     return this.getAllSubDomains(itemsFiltered);
+  }
+
+  async findAllBySystemNameAndDomainName(
+    input: PermissionRepositoryFindAllBySystemNameAndDomainNameInput
+  ): Promise<PermissionDto[]> {
+    return this.items.filter((i) => i.perm_dom_name === input.domain_name && i.perm_system_name === input.system_name);
   }
 
   async findByName(name: string): Promise<PermissionDto> {

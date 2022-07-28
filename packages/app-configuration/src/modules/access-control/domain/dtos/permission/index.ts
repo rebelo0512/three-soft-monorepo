@@ -1,4 +1,4 @@
 export * from './PermissionDto';
 export * from './PermissionDomainDto';
-export * from './PermissionDomainFindBySystemNameAndNameDto';
-export * from './PermissionDomainFindAllSystemsDto';
+export * from './PermissionCreateDto';
+export * from './PermissionFindByDomainNameDto';
