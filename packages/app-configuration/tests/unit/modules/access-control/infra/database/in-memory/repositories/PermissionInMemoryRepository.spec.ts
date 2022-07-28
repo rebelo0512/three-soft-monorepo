@@ -9,7 +9,7 @@ describe('PermissionInMemoryRepository Unit Tests', () => {
     repository = new PermissionInMemoryRepository();
   });
 
-  describe('findByDomainName', () => {
+  describe('findAllByDomainName', () => {
     it('should return permissions by domain name', async () => {
       const permission_domain: OmitBaseDto<PermissionDomainDto> = {
         perm_dom_id: 1,
@@ -34,7 +34,7 @@ describe('PermissionInMemoryRepository Unit Tests', () => {
         ...permission_domain
       });
 
-      const permissions = await repository.findByDomainName('Domain Name');
+      const permissions = await repository.findAllByDomainName('Domain Name');
 
       expect(permissions.length).toBe(2);
       expect(permissions).toEqual([
@@ -55,14 +55,14 @@ describe('PermissionInMemoryRepository Unit Tests', () => {
         perm_system_name: 'System Name'
       });
 
-      const permissions = await repository.findByDomainName('Domain Name');
+      const permissions = await repository.findAllByDomainName('Domain Name');
 
       expect(permissions.length).toBe(0);
       expect(permissions).toEqual([]);
     });
   });
 
-  describe('findBySubDomainName', () => {
+  describe('findAllBySubDomainName', () => {
     it('should return permissions by sub domain name', async () => {
       const permission_domain: OmitBaseDto<PermissionDomainDto> = {
         perm_dom_id: 1,
@@ -87,7 +87,7 @@ describe('PermissionInMemoryRepository Unit Tests', () => {
         ...permission_domain
       });
 
-      const permissions = await repository.findBySubDomainName('Sub Domain 01');
+      const permissions = await repository.findAllBySubDomainName('Sub Domain 01');
 
       expect(permissions.length).toBe(2);
       expect(permissions).toEqual([
@@ -108,7 +108,7 @@ describe('PermissionInMemoryRepository Unit Tests', () => {
         perm_system_name: 'System Name'
       });
 
-      const permissions = await repository.findByDomainName('Sub Domain 02');
+      const permissions = await repository.findAllByDomainName('Sub Domain 02');
 
       expect(permissions.length).toBe(0);
       expect(permissions).toEqual([]);
@@ -165,6 +165,57 @@ describe('PermissionInMemoryRepository Unit Tests', () => {
       const subDomains = await repository.findAllSubDomainsByDomainId(1);
 
       expect(subDomains).toEqual([
+        { ...permission_one, created_at: expect.any(Date), updated_at: expect.any(Date) },
+        { ...permission_two, created_at: expect.any(Date), updated_at: expect.any(Date) }
+      ]);
+    });
+  });
+
+  describe('findAllBySystemNameAndDomainName', () => {
+    it('should return all permissions based on system name and domain name', async () => {
+      const permission_domain: OmitBaseDto<PermissionDomainDto> = {
+        perm_dom_id: 1,
+        perm_dom_name: 'Domain Name',
+        perm_system_name: 'System Name'
+      };
+
+      const another_permission_domain: OmitBaseDto<PermissionDomainDto> = {
+        perm_dom_id: 2,
+        perm_dom_name: 'Domain Name 02',
+        perm_system_name: 'System Name 02'
+      };
+
+      const permission_one = await createPermission(repository, 1, {
+        perm_id: 1,
+        perm_name: 'Permission 01',
+        perm_sub_dom_name: 'Sub Domain 01',
+        created_at: new Date(),
+        updated_at: new Date(),
+        ...permission_domain
+      });
+      const permission_two = await createPermission(repository, 2, {
+        perm_id: 2,
+        perm_name: 'Permission 02',
+        perm_sub_dom_name: 'Sub Domain 02',
+        created_at: new Date(),
+        updated_at: new Date(),
+        ...permission_domain
+      });
+      await createPermission(repository, 1, {
+        perm_id: 4,
+        perm_name: 'Permission 04',
+        perm_sub_dom_name: 'Sub Domain 01',
+        created_at: new Date(),
+        updated_at: new Date(),
+        ...another_permission_domain
+      });
+
+      const permissions = await repository.findAllBySystemNameAndDomainName({
+        system_name: 'System Name',
+        domain_name: 'Domain Name'
+      });
+
+      expect(permissions).toEqual([
         { ...permission_one, created_at: expect.any(Date), updated_at: expect.any(Date) },
         { ...permission_two, created_at: expect.any(Date), updated_at: expect.any(Date) }
       ]);
