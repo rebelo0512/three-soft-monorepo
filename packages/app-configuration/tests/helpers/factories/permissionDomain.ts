@@ -1,4 +1,5 @@
 import { generateString } from '@three-soft/core-backend';
+import { Knex } from 'knex';
 import { PermissionDomainDto, IPermissionDomainRepository } from '../../../src';
 
 export async function createPermissionDomain(
@@ -14,9 +15,7 @@ export async function createPermissionDomain(
     updated_at: new Date()
   };
 
-  await repository.create(permission);
-
-  return permission;
+  return repository.create(permission);
 }
 
 export async function createPermissionDomains(repository: IPermissionDomainRepository, total: number) {
@@ -33,4 +32,8 @@ export async function createPermissionDomains(repository: IPermissionDomainRepos
     );
   }
   await Promise.all(promises);
+}
+
+export async function cleanPermissionDomainDB(connection: Knex) {
+  await connection('permissions_domains').delete();
 }
