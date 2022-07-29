@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package equipment;
+
+option go_package = "./pb";
+
+message OltDefaultRequest {
+  string manufacturer = 1;
+  string hostname = 2;
+  string port = 3;
+  string username = 4;
+  string password = 5;
+  string unm = 6;
+  string slot = 7;
+}
+
+message OltSeeSignalRequest {
+  OltDefaultRequest oltDefault = 1;
+  string pon = 2;
+  repeated string positions = 3;
+  repeated string serials = 4;
+}
+
+message OltSeeSignalResponse {
+  string data = 1;
+}
+
+service OltService {
+  rpc OltSeeSignal (OltSeeSignalRequest) returns (OltSeeSignalResponse);
+}
