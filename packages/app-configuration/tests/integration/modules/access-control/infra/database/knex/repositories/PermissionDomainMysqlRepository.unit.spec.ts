@@ -35,20 +35,14 @@ describe('PermissionDomainMysqlRepository Integration Tests', () => {
 
   describe('findAllDomainBySystemName', () => {
     it('should return domain by system name', async () => {
-      const domain_one = await createPermissionDomain(repository, 1);
-      const domain_two = await createPermissionDomain(repository, 2, {
-        perm_dom_id: 2,
-        perm_dom_name: 'Domain 02',
-        perm_system_name: domain_one.perm_system_name,
-        created_at: new Date(),
-        updated_at: new Date()
+      const domain_one = await createPermissionDomain(repository);
+      const domain_two = await createPermissionDomain(repository, {
+        name: 'Domain 02',
+        system_name: domain_one.perm_system_name
       });
-      await createPermissionDomain(repository, 2, {
-        perm_dom_id: 3,
-        perm_dom_name: 'Domain 03',
-        perm_system_name: 'System 02',
-        created_at: new Date(),
-        updated_at: new Date()
+      await createPermissionDomain(repository, {
+        name: 'Domain 03',
+        system_name: 'System 02'
       });
 
       const domains = await repository.findAllDomainBySystemName(domain_one.perm_system_name);
@@ -63,7 +57,7 @@ describe('PermissionDomainMysqlRepository Integration Tests', () => {
 
   describe('findById', () => {
     it('should return domain by id', async () => {
-      const domain_one = await createPermissionDomain(repository, 1);
+      const domain_one = await createPermissionDomain(repository);
 
       const domain = await repository.findById(domain_one.perm_dom_id);
 
@@ -84,7 +78,7 @@ describe('PermissionDomainMysqlRepository Integration Tests', () => {
 
   describe('findByName', () => {
     it('should return domain by name', async () => {
-      const domain_one = await createPermissionDomain(repository, 1);
+      const domain_one = await createPermissionDomain(repository);
 
       const domain = await repository.findByName(domain_one.perm_dom_name);
 
@@ -105,7 +99,7 @@ describe('PermissionDomainMysqlRepository Integration Tests', () => {
 
   describe('findBySystemNameAndName', () => {
     it('should return domain by name', async () => {
-      const domain_one = await createPermissionDomain(repository, 1);
+      const domain_one = await createPermissionDomain(repository);
 
       const domain = await repository.findBySystemNameAndName({
         name: domain_one.perm_dom_name,
@@ -137,7 +131,10 @@ describe('PermissionDomainMysqlRepository Integration Tests', () => {
         updated_at: new Date()
       };
 
-      const domain = await repository.create(domain_one);
+      const domain = await repository.create({
+        name: domain_one.perm_dom_name,
+        system_name: domain_one.perm_system_name
+      });
 
       expect(domain).toEqual({
         ...domain_one,

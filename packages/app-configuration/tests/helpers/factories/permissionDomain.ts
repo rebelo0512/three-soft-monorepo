@@ -1,18 +1,14 @@
 import { generateString } from '@three-soft/core-backend';
 import { Knex } from 'knex';
-import { PermissionDomainDto, IPermissionDomainRepository } from '../../../src';
+import { PermissionDomainDto, IPermissionDomainRepository, PermissionDomainRepositoryCreateInput } from '../../../src';
 
 export async function createPermissionDomain(
   repository: IPermissionDomainRepository,
-  id: number,
-  props?: PermissionDomainDto
+  props?: PermissionDomainRepositoryCreateInput
 ) {
-  const permission: PermissionDomainDto = props || {
-    perm_dom_id: id,
-    perm_system_name: generateString(10),
-    perm_dom_name: generateString(10),
-    created_at: new Date(),
-    updated_at: new Date()
+  const permission = props || {
+    system_name: generateString(10),
+    name: generateString(10)
   };
 
   return repository.create(permission);
@@ -23,11 +19,8 @@ export async function createPermissionDomains(repository: IPermissionDomainRepos
   for (let index = 0; index < total; index += 1) {
     promises.push(
       repository.create({
-        perm_dom_id: index + 1,
-        perm_system_name: `System ${String(index + 1).padStart(2, '0')}`,
-        perm_dom_name: `Name ${String(index + 1).padStart(2, '0')}`,
-        created_at: new Date(),
-        updated_at: new Date()
+        system_name: `System ${String(index + 1).padStart(2, '0')}`,
+        name: `Name ${String(index + 1).padStart(2, '0')}`
       })
     );
   }
@@ -35,5 +28,6 @@ export async function createPermissionDomains(repository: IPermissionDomainRepos
 }
 
 export async function cleanPermissionDomainDB(connection: Knex) {
+  await connection('permissions').delete();
   await connection('permissions_domains').delete();
 }

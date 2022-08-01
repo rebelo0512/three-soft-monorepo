@@ -1,15 +1,17 @@
-import { DatabaseMysqlConnection, MysqlBaseRepository } from '@three-soft/core-backend';
+import { DatabaseMysqlConnection, EntityCreateError, MysqlBaseRepository } from '@three-soft/core-backend';
 import {
   IPermissionDomainRepository,
   PermissionDomainDto,
+  PermissionDomainRepositoryCreateInput,
   PermissionDomainRepositoryFindAllSystemsOutput,
   PermissionDomainRepositoryFindBySystemNameAndNameInput
 } from '../../../../domain';
 
 export class PermissionDomainMysqlRepository extends MysqlBaseRepository implements IPermissionDomainRepository {
+  tableName = 'permissions_domains';
+
   constructor() {
     super(DatabaseMysqlConnection);
-    this.tableName = 'permissions_domains';
   }
 
   async findAllSystems(): Promise<PermissionDomainRepositoryFindAllSystemsOutput[]> {
@@ -52,15 +54,16 @@ export class PermissionDomainMysqlRepository extends MysqlBaseRepository impleme
     return this.validateEntityExist(permission_domain);
   }
 
-  async create(entityDto: PermissionDomainDto): Promise<PermissionDomainDto> {
+  async create(input: PermissionDomainRepositoryCreateInput): Promise<PermissionDomainDto> {
     const [id] = await this.connection(this.tableName).insert({
-      perm_system_name: entityDto.perm_system_name,
-      perm_dom_name: entityDto.perm_dom_name
+      perm_system_name: input.system_name,
+      perm_dom_name: input.name
     });
 
-    return {
-      ...entityDto,
-      perm_dom_id: id
-    };
+    const domain = await this.findById(id);
+
+    if (!domain) throw new EntityCreateError('Domínio de Permissão');
+
+    return domain;
   }
 }

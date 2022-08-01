@@ -1,11 +1,13 @@
+import { IBaseRepository } from '@three-soft/core-backend';
 import { PermissionDomainDto } from '../dtos';
 import {
   PermissionDomainRepositoryFindBySystemNameAndNameInput,
-  PermissionDomainRepositoryFindAllSystemsOutput
+  PermissionDomainRepositoryFindAllSystemsOutput,
+  PermissionDomainRepositoryCreateInput
 } from '.';
 
 /* c8 ignore start */
-export abstract class IPermissionDomainRepository {
+export abstract class IPermissionDomainRepository extends IBaseRepository {
   abstract findAllSystems(): Promise<PermissionDomainRepositoryFindAllSystemsOutput[]>;
   abstract findAllDomainBySystemName(system_name: string): Promise<PermissionDomainDto[]>;
   abstract findById(id: number): Promise<PermissionDomainDto | null>;
@@ -14,6 +16,6 @@ export abstract class IPermissionDomainRepository {
     input: PermissionDomainRepositoryFindBySystemNameAndNameInput
   ): Promise<PermissionDomainDto | null>;
 
-  abstract create(entityDto: PermissionDomainDto): Promise<PermissionDomainDto>;
+  abstract create(input: PermissionDomainRepositoryCreateInput): Promise<PermissionDomainDto>;
 }
 /* c8 ignore stop */
