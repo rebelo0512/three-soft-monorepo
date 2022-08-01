@@ -1,19 +1,17 @@
-import { generateString, OmitBaseDto } from '@three-soft/core-backend';
-import { PermissionDto, IPermissionRepository, PermissionDomainDto } from '../../../src';
+import { generateString } from '@three-soft/core-backend';
+import { Knex } from 'knex';
+import { PermissionDto, IPermissionRepository, PermissionRepositoryCreateInput } from '../../../src';
 
-export async function createPermission(repository: IPermissionRepository, id: number, props?: PermissionDto) {
-  const permission: PermissionDto = props || {
-    perm_id: id,
-    perm_sub_dom_name: generateString(10),
-    perm_name: generateString(10),
-    created_at: new Date(),
-    updated_at: new Date(),
-    perm_dom_id: id * 2,
-    perm_dom_name: generateString(10),
-    perm_system_name: generateString(10)
-  };
-
-  await repository.create(permission);
+export async function createPermission(
+  repository: IPermissionRepository,
+  domain_id: number,
+  props?: Omit<PermissionRepositoryCreateInput, 'domain_id'>
+) {
+  const permission = await repository.create({
+    sub_domain: props?.sub_domain || null,
+    name: props?.name || `Name ${generateString(5)}`,
+    domain_id
+  });
 
   return permission;
 }
@@ -21,26 +19,23 @@ export async function createPermission(repository: IPermissionRepository, id: nu
 export async function createPermissions(
   repository: IPermissionRepository,
   total: number,
-  permission_domain?: OmitBaseDto<PermissionDomainDto>
+  permission_domain_id: number
 ) {
   const promises: Array<Promise<PermissionDto>> = [];
   for (let index = 0; index < total; index += 1) {
-    const permission_domain_entity = permission_domain || {
-      perm_dom_id: index * 2,
-      perm_dom_name: generateString(10),
-      perm_system_name: generateString(10)
-    };
-
     promises.push(
       repository.create({
-        perm_id: index + 1,
-        perm_sub_dom_name: `Sub Domain ${String(index + 1).padStart(2, '0')}`,
-        perm_name: `Name ${String(index + 1).padStart(2, '0')}`,
-        created_at: new Date(),
-        updated_at: new Date(),
-        ...permission_domain_entity
+        sub_domain: `Sub Domain ${String(index + 1).padStart(2, '0')}`,
+        name: `Name ${String(index + 1).padStart(2, '0')}`,
+        domain_id: permission_domain_id
       })
     );
   }
   await Promise.all(promises);
+}
+
+export async function cleanPermissionDB(connection: Knex) {
+  await connection('groups_permissions').delete();
+  await connection('permissions').delete();
+  await connection('permissions_domains').delete();
 }
