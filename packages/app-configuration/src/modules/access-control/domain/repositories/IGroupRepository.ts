@@ -1,7 +1,12 @@
-import { IBaseRepository } from '@three-soft/core-backend';
-import { GroupDto, GroupSearchInputDto } from '../dtos';
+import { GroupDto } from '../dtos';
 
-export interface IGroupRepository extends IBaseRepository<GroupDto> {
-  findAllPermissionsById(id: number): Promise<GroupDto>;
-  search(input: GroupSearchInputDto): Promise<GroupDto[]>;
+export abstract class IGroupRepository {
+  abstract tableName: string;
+
+  abstract findAll(): Promise<GroupDto[]>;
+  abstract search(name: string): Promise<GroupDto[]>;
+  abstract findById(id: number): Promise<GroupDto>;
+  abstract findByName(name: string): Promise<GroupDto>;
+  abstract create(name: string): Promise<GroupDto>;
+  abstract delete(id: number): Promise<void>;
 }
