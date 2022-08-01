@@ -1,10 +1,18 @@
 import { DatabaseMysqlConnection } from '@three-soft/core-backend';
-import { PermissionDomainDto, PermissionDomainMysqlRepository } from '../../../../../../../../src';
+import {
+  IPermissionDomainRepository,
+  PermissionDomainDto,
+  PermissionDomainMysqlRepository
+} from '../../../../../../../../src';
 import { cleanPermissionDomainDB, createPermissionDomain, createPermissionDomains } from '../../../../../../../helpers';
 
-const repository = new PermissionDomainMysqlRepository();
-
 describe('PermissionDomainMysqlRepository Integration Tests', () => {
+  let repository: IPermissionDomainRepository;
+
+  beforeAll(async () => {
+    repository = new PermissionDomainMysqlRepository();
+  });
+
   beforeEach(async () => {
     await cleanPermissionDomainDB(DatabaseMysqlConnection);
   });

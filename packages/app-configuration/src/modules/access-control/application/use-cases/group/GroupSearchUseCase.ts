@@ -1,12 +1,12 @@
 import { BaseUseCase } from '@three-soft/core-backend';
-import { GroupDto, GroupSearchInputDto, IGroupRepository } from '../../../domain';
+import { GroupDto, IGroupRepository } from '../../../domain';
 
-export class GroupSearchUseCase extends BaseUseCase<GroupSearchInputDto, GroupDto[]> {
-  constructor(private groupRepository: IGroupRepository) {
+export class GroupSearchUseCase extends BaseUseCase<string, GroupDto[]> {
+  constructor(private repository: IGroupRepository) {
     super();
   }
 
-  async execute({ name }: GroupSearchInputDto): Promise<GroupDto[]> {
-    return this.groupRepository.search({ name });
+  async execute(name: string): Promise<GroupDto[]> {
+    return this.repository.search(name);
   }
 }

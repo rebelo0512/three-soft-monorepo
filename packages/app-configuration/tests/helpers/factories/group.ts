@@ -1,30 +1,22 @@
 import { generateString } from '@three-soft/core-backend';
+import { Knex } from 'knex';
 import { GroupDto, IGroupRepository } from '../../../src';
 
-export async function createGroup(repository: IGroupRepository, id: number, props?: GroupDto) {
-  const group: GroupDto = props || {
-    group_id: id,
-    group_name: generateString(10),
-    created_at: new Date(),
-    updated_at: new Date()
-  };
+export async function createGroup(repository: IGroupRepository, name?: string) {
+  const group_name = name || generateString(10);
 
-  await repository.create(group);
-
-  return group;
+  return repository.create(group_name);
 }
 
 export async function createGroups(repository: IGroupRepository, total: number) {
-  const promises = [];
+  const promises: Array<Promise<GroupDto>> = [];
   for (let index = 0; index < total; index += 1) {
-    promises.push(
-      repository.create({
-        group_id: index + 1,
-        group_name: `Name ${String(index + 1).padStart(2, '0')}`,
-        created_at: new Date(),
-        updated_at: new Date()
-      })
-    );
+    promises.push(repository.create(`Name ${String(index + 1).padStart(2, '0')}`));
   }
   await Promise.all(promises);
+}
+
+export async function cleanGroupDB(connection: Knex) {
+  await connection('groups_permissions').delete();
+  await connection('´groups´').delete();
 }

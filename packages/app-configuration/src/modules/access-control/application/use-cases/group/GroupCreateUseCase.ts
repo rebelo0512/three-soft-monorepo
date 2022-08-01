@@ -10,11 +10,6 @@ export class GroupCreateUseCase extends BaseUseCase<GroupCreateInputDto, GroupDt
   async execute(input: GroupCreateInputDto): Promise<GroupDto> {
     const dto = await validateSchema<GroupCreateInputDto>(GroupCreateValidationSchema, input);
 
-    return this.groupRepository.create({
-      group_id: 0,
-      group_name: dto.name,
-      created_at: new Date(),
-      updated_at: new Date()
-    });
+    return this.groupRepository.create(dto.name);
   }
 }
