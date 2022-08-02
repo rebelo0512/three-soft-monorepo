@@ -62,6 +62,7 @@ export class PermissionDomainMysqlRepository extends MysqlBaseRepository impleme
 
     const domain = await this.findById(id);
 
+    /* c8 ignore next */
     if (!domain) throw new EntityCreateError('Domínio de Permissão');
 
     return domain;

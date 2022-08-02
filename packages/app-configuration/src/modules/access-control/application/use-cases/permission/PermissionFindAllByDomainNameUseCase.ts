@@ -1,4 +1,4 @@
-import { BaseUseCase } from '@three-soft/core-backend';
+import { BaseUseCase, EntityNotFoundError } from '@three-soft/core-backend';
 import {
   IPermissionDomainRepository,
   IPermissionRepository,
@@ -30,6 +30,8 @@ export class PermissionFindAllByDomainNameUseCase extends BaseUseCase<
       system_name: input.system_name,
       name: input.domain_name
     });
+
+    if (!domain) throw new EntityNotFoundError(input.domain_name, 'nome');
 
     return this.permissionRepository.findAllSubDomainsByDomainId(domain.perm_dom_id);
   }

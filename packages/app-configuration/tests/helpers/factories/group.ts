@@ -16,6 +16,17 @@ export async function createGroups(repository: IGroupRepository, total: number) 
   await Promise.all(promises);
 }
 
+export async function createGroupPermissions(connection: Knex, group_id: number, permission_ids: number[]) {
+  const promises = permission_ids.map(async (permission_id) => {
+    await connection('groups_permissions').insert({
+      group_perm_perm_id: permission_id,
+      group_perm_group_id: group_id
+    });
+  });
+
+  await Promise.all(promises);
+}
+
 export async function cleanGroupDB(connection: Knex) {
   await connection('groups_permissions').delete();
   await connection('´groups´').delete();

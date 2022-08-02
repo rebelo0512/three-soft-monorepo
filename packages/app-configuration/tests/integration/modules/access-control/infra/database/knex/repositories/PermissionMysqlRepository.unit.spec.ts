@@ -1,5 +1,7 @@
 import { DatabaseMysqlConnection } from '@three-soft/core-backend';
 import {
+  GroupMysqlRepository,
+  IGroupRepository,
   IPermissionDomainRepository,
   IPermissionRepository,
   PermissionDomainMysqlRepository,
@@ -9,14 +11,18 @@ import {
   cleanPermissionDB,
   createPermissions,
   createPermissionDomain,
-  createPermission
+  createPermission,
+  createGroup,
+  createGroupPermissions
 } from '../../../../../../../helpers';
 
 describe('PermissionMysqlRepository Integration Tests', () => {
+  let groupRepository: IGroupRepository;
   let permissionDomainRepository: IPermissionDomainRepository;
   let repository: IPermissionRepository;
 
   beforeAll(async () => {
+    groupRepository = new GroupMysqlRepository();
     permissionDomainRepository = new PermissionDomainMysqlRepository();
     repository = new PermissionMysqlRepository();
   });
@@ -191,8 +197,8 @@ describe('PermissionMysqlRepository Integration Tests', () => {
       const permission_domain = await createPermissionDomain(permissionDomainRepository);
       const permission_domain_two = await createPermissionDomain(permissionDomainRepository);
 
-      await createPermission(repository, permission_domain.perm_dom_id, { name: 'Name 01', sub_domain: 'Sub Domain' });
-      await createPermission(repository, permission_domain.perm_dom_id, { name: 'Name 02', sub_domain: 'Sub Domain' });
+      await createPermission(repository, permission_domain.perm_dom_id, { name: 'Name 01', sub_domain: null });
+      await createPermission(repository, permission_domain.perm_dom_id, { name: 'Name 02', sub_domain: null });
       await createPermission(repository, permission_domain_two.perm_dom_id, {
         name: 'Name 03',
         sub_domain: 'Sub Domain 02'
@@ -202,6 +208,103 @@ describe('PermissionMysqlRepository Integration Tests', () => {
         system_name: permission_domain.perm_system_name,
         domain_name: permission_domain.perm_dom_name
       });
+
+      expect(permissions.length).toBe(2);
+      expect(permissions).toEqual([
+        {
+          perm_id: expect.any(Number),
+          perm_name: 'Name 01',
+          perm_sub_dom_name: null,
+          created_at: expect.any(Date),
+          updated_at: expect.any(Date),
+          perm_dom_id: permission_domain.perm_dom_id,
+          perm_system_name: permission_domain.perm_system_name,
+          perm_dom_name: permission_domain.perm_dom_name
+        },
+        {
+          perm_id: expect.any(Number),
+          perm_name: 'Name 02',
+          perm_sub_dom_name: null,
+          created_at: expect.any(Date),
+          updated_at: expect.any(Date),
+          perm_dom_id: permission_domain.perm_dom_id,
+          perm_system_name: permission_domain.perm_system_name,
+          perm_dom_name: permission_domain.perm_dom_name
+        }
+      ]);
+    });
+  });
+
+  describe('findAllBySystemNameAndDomainNameAndSubDomain', () => {
+    it('should return all permissions by system name and domain name', async () => {
+      const permission_domain = await createPermissionDomain(permissionDomainRepository);
+      const permission_domain_two = await createPermissionDomain(permissionDomainRepository);
+
+      await createPermission(repository, permission_domain.perm_dom_id, { name: 'Name 01', sub_domain: 'Sub Domain' });
+      await createPermission(repository, permission_domain.perm_dom_id, { name: 'Name 02', sub_domain: 'Sub Domain' });
+      await createPermission(repository, permission_domain_two.perm_dom_id, {
+        name: 'Name 03',
+        sub_domain: 'Sub Domain 02'
+      });
+
+      const permissions = await repository.findAllBySystemNameAndDomainNameAndSubDomain({
+        system_name: permission_domain.perm_system_name,
+        domain_name: permission_domain.perm_dom_name,
+        sub_domain: 'Sub Domain'
+      });
+
+      expect(permissions.length).toBe(2);
+      expect(permissions).toEqual([
+        {
+          perm_id: expect.any(Number),
+          perm_name: 'Name 01',
+          perm_sub_dom_name: 'Sub Domain',
+          created_at: expect.any(Date),
+          updated_at: expect.any(Date),
+          perm_dom_id: permission_domain.perm_dom_id,
+          perm_system_name: permission_domain.perm_system_name,
+          perm_dom_name: permission_domain.perm_dom_name
+        },
+        {
+          perm_id: expect.any(Number),
+          perm_name: 'Name 02',
+          perm_sub_dom_name: 'Sub Domain',
+          created_at: expect.any(Date),
+          updated_at: expect.any(Date),
+          perm_dom_id: permission_domain.perm_dom_id,
+          perm_system_name: permission_domain.perm_system_name,
+          perm_dom_name: permission_domain.perm_dom_name
+        }
+      ]);
+    });
+  });
+
+  describe('findAllByGroupId', () => {
+    it('should return all permissions by group id', async () => {
+      const group = await createGroup(groupRepository);
+
+      const permission_domain = await createPermissionDomain(permissionDomainRepository);
+      const permission_domain_two = await createPermissionDomain(permissionDomainRepository);
+
+      const permission_one = await createPermission(repository, permission_domain.perm_dom_id, {
+        name: 'Name 01',
+        sub_domain: 'Sub Domain'
+      });
+      const permission_two = await createPermission(repository, permission_domain.perm_dom_id, {
+        name: 'Name 02',
+        sub_domain: 'Sub Domain'
+      });
+      await createPermission(repository, permission_domain_two.perm_dom_id, {
+        name: 'Name 03',
+        sub_domain: 'Sub Domain 02'
+      });
+
+      await createGroupPermissions(DatabaseMysqlConnection, group.group_id, [
+        permission_one.perm_id,
+        permission_two.perm_id
+      ]);
+
+      const permissions = await repository.findAllByGroupId(group.group_id);
 
       expect(permissions.length).toBe(2);
       expect(permissions).toEqual([

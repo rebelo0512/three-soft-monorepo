@@ -24,7 +24,7 @@ describe('GroupSearchUseCase Integration Tests', () => {
     await createGroup(repository, 'Group 02');
     await createGroup(repository, 'Group 11');
 
-    const groups = await searchUseCase.execute('Group 0');
+    const groups = await searchUseCase.execute({ name: 'Group 0' });
 
     expect(groups.length).toBe(2);
     expect(groups).toEqual([
@@ -42,7 +42,7 @@ describe('GroupSearchUseCase Integration Tests', () => {
       }
     ]);
 
-    const groups_two = await searchUseCase.execute('Group 11');
+    const groups_two = await searchUseCase.execute({ name: 'Group 11' });
 
     expect(groups_two.length).toBe(1);
     expect(groups_two).toEqual([
