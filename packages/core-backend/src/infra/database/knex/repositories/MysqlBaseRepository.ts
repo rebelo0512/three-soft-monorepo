@@ -2,56 +2,56 @@ import { Knex } from 'knex';
 import { MysqlBaseRepositoryFilter } from '.';
 
 export class MysqlBaseRepository {
-  protected tableName = 'test';
+  protected table_name = 'test';
 
   constructor(protected readonly connection: Knex) {}
 
-  protected setFilters<T>(queryBuilder: Knex.QueryBuilder, filters: MysqlBaseRepositoryFilter<T>[]) {
-    const isValid = this.validateFilter(filters);
+  protected setFilters<T>(query_builder: Knex.QueryBuilder, filters: MysqlBaseRepositoryFilter<T>[]) {
+    const is_valid = this.validateFilter(filters);
 
-    if (!isValid) return;
+    if (!is_valid) return;
 
-    const queryRaw: string[] = [];
+    const query_raw: string[] = [];
     const bindings: string[] = [];
 
-    filters.forEach((filter) => this.setFilter(queryRaw, bindings, filter));
+    filters.forEach((filter) => this.setFilter(query_raw, bindings, filter));
 
-    queryBuilder.whereRaw(queryRaw.join(' '), bindings);
+    query_builder.whereRaw(query_raw.join(' '), bindings);
   }
 
   protected setSortAndSortDirection<T>(
-    queryBuilder: Knex.QueryBuilder,
-    sortableFields: (keyof T)[],
+    query_builder: Knex.QueryBuilder,
+    sortable_fields: (keyof T)[],
     sort: string,
-    sortDirection: 'asc' | 'desc'
+    sort_direction: 'asc' | 'desc'
   ) {
-    const isSortable = this.validateFieldIsSortable<T>(sortableFields, sort);
+    const is_sortable = this.validateFieldIsSortable<T>(sortable_fields, sort);
 
-    let sortField = sort;
-    if (!isSortable) {
-      sortField = 'created_at';
+    let sort_field = sort;
+    if (!is_sortable) {
+      sort_field = 'created_at';
     }
 
-    queryBuilder.orderBy(sortField, sortDirection);
+    query_builder.orderBy(sort_field, sort_direction);
   }
 
   protected async consumeSearchQuery<QueryResponse>(
     query: Knex.QueryBuilder,
     offset: number,
     limit: number,
-    countField: 'string' | '*',
-    ...selectFields: string[]
+    count_field: 'string' | '*',
+    ...select_fields: string[]
   ): Promise<{
     count: number;
     items: Awaited<Knex.QueryBuilder<never, QueryResponse>>;
   }> {
-    const [{ count }] = await query.clone().count({ count: countField });
+    const [{ count }] = await query.clone().count({ count: count_field });
 
     const items = await query
       .clone()
       .offset(offset)
       .limit(limit)
-      .select<QueryResponse>(...selectFields);
+      .select<QueryResponse>(...select_fields);
 
     return { count: Number(count), items };
   }
@@ -71,18 +71,18 @@ export class MysqlBaseRepository {
   }
 
   setFilter<T>(
-    queryRaw: string[],
+    query_raw: string[],
     bindings: unknown[],
-    { field, value, operator, nextQuery }: MysqlBaseRepositoryFilter<T>
+    { field, value, operator, next_query }: MysqlBaseRepositoryFilter<T>
   ) {
-    const valueIsValid = value ?? '';
-    const valueFormatted = operator === 'LIKE' ? `%${valueIsValid}%` : valueIsValid;
-    queryRaw.push(`${String(field)} ${operator} ? ${nextQuery || ''}`);
-    bindings.push(valueFormatted);
+    const value_is_valid = value ?? '';
+    const value_formatted = operator === 'LIKE' ? `%${value_is_valid}%` : value_is_valid;
+    query_raw.push(`${String(field)} ${operator} ? ${next_query || ''}`);
+    bindings.push(value_formatted);
   }
 
-  private validateFieldIsSortable<T>(sortableFields: (keyof T)[], sort: string) {
-    return sortableFields.some((field) => field === sort);
+  private validateFieldIsSortable<T>(sortable_fields: (keyof T)[], sort: string) {
+    return sortable_fields.some((field) => field === sort);
   }
 
   /* #endregion */

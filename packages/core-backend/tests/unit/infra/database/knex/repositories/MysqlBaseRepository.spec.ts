@@ -93,13 +93,13 @@ describe('MysqlBaseRepository Integration Tests', () => {
           field: 'id',
           operator: '=',
           value: 1,
-          nextQuery: 'AND'
+          next_query: 'AND'
         },
         {
           field: 'name',
           operator: 'LIKE',
           value: 'Name Test',
-          nextQuery: 'OR'
+          next_query: 'OR'
         },
         {
           field: 'description',
