@@ -1,5 +1,5 @@
 import { IBaseRepository } from '@three-soft/core-backend';
-import { GroupDto } from '../dtos';
+import { GroupDto } from '../../dtos';
 import { GroupRepositoryUpdatePermissionsInput } from './group';
 
 /* c8 ignore start */

@@ -1,5 +1,5 @@
 import { IBaseRepository } from '@three-soft/core-backend';
-import { PermissionDto } from '../dtos';
+import { PermissionDto } from '../../dtos';
 import {
   PermissionRepositoryFindAllBySystemNameAndDomainNameInput,
   PermissionRepositoryCreateInput,

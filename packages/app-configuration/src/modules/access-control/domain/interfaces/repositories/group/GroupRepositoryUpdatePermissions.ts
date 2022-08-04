@@ -1,4 +1,4 @@
-import { PermissionDto } from '../../dtos';
+import { PermissionDto } from '../../../dtos';
 
 export type GroupRepositoryUpdatePermissionsInput = {
   group_id: number;
