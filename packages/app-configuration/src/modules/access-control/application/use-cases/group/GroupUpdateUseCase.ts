@@ -34,7 +34,7 @@ export class GroupUpdateUseCase extends BaseUseCase<GroupUpdateInputDto, GroupDt
   private async getGroup(dto: GroupUpdateInputDto) {
     const group = await this.groupRepository.findById(dto.id);
 
-    if (!group) throw new EntityNotFoundError(dto.id, 'id');
+    if (!group) throw new EntityNotFoundError('Grupo', dto.id, 'id');
 
     return group;
   }

@@ -108,6 +108,6 @@ describe('GroupUpdateUseCase Integration Tests', () => {
         sub_domain: string_error,
         permissions: []
       })
-    ).rejects.toThrowError(`Entidade não encontrada pelo(a) id: 0`);
+    ).rejects.toThrowError(`Grupo não encontrada pelo(a) id: 0`);
   });
 });

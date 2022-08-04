@@ -96,6 +96,6 @@ describe('PermissionFindAllByDomainNameUseCase Integration Tests', () => {
         system_name: string_error,
         domain_name: string_error
       })
-    ).rejects.toThrowError(`Entidade não encontrada pelo(a) nome: ${string_error}`);
+    ).rejects.toThrowError(`Domínio da Permissão não encontrada pelo(a) nome: ${string_error}`);
   });
 });

@@ -1,6 +1,6 @@
 import { IBaseRepository } from '@three-soft/core-backend';
 import { GroupDto } from '../../dtos';
-import { GroupRepositoryUpdatePermissionsInput } from './group';
+import { GroupRepositoryUpdatePermissionsInput } from './group-repository';
 
 /* c8 ignore start */
 export abstract class IGroupRepository extends IBaseRepository {

@@ -10,14 +10,14 @@ import {
 } from '../../../../domain';
 
 export class PermissionMysqlRepository extends MysqlBaseRepository implements IPermissionRepository {
-  tableName = 'permissions';
+  table_name = 'permissions';
 
   constructor() {
     super(DatabaseMysqlConnection);
   }
 
   async findAll(): Promise<PermissionDto[]> {
-    const query = this.connection(this.tableName).select<PermissionDto[]>();
+    const query = this.connection(this.table_name).select<PermissionDto[]>();
 
     this.setPermissionDomainJoin(query);
 
@@ -27,24 +27,24 @@ export class PermissionMysqlRepository extends MysqlBaseRepository implements IP
   }
 
   async findAllByDomainName(domain_name: string): Promise<PermissionDto[]> {
-    const query = this.connection(this.tableName).select<PermissionDto[]>();
+    const query = this.connection(this.table_name).select<PermissionDto[]>();
 
     this.setPermissionDomainJoin(query);
 
     query
       .where('permissions_domains.perm_dom_name', domain_name)
-      .andWhereRaw(`${this.tableName}.perm_sub_dom_name IS NULL`)
-      .orderBy(`${this.tableName}.perm_name`, 'asc');
+      .andWhereRaw(`${this.table_name}.perm_sub_dom_name IS NULL`)
+      .orderBy(`${this.table_name}.perm_name`, 'asc');
 
     return query;
   }
 
   async findAllBySubDomainName(sub_domain: string): Promise<PermissionDto[]> {
-    const query = this.connection(this.tableName).select<PermissionDto[]>();
+    const query = this.connection(this.table_name).select<PermissionDto[]>();
 
     this.setPermissionDomainJoin(query);
 
-    query.where(`${this.tableName}.perm_sub_dom_name`, sub_domain).orderBy(`${this.tableName}.perm_name`, 'asc');
+    query.where(`${this.table_name}.perm_sub_dom_name`, sub_domain).orderBy(`${this.table_name}.perm_name`, 'asc');
 
     return query;
   }
@@ -52,17 +52,17 @@ export class PermissionMysqlRepository extends MysqlBaseRepository implements IP
   async findAllSubDomainsByDomainId(
     domain_id: number
   ): Promise<PermissionRepositoryFindAllSubDomainsByDomainIdOutput[]> {
-    const query = this.connection(this.tableName).select<PermissionRepositoryFindAllSubDomainsByDomainIdOutput[]>(
-      `${this.tableName}.perm_sub_dom_name`
+    const query = this.connection(this.table_name).select<PermissionRepositoryFindAllSubDomainsByDomainIdOutput[]>(
+      `${this.table_name}.perm_sub_dom_name`
     );
 
     this.setPermissionDomainJoin(query);
 
     query
       .where('permissions_domains.perm_dom_id', domain_id)
-      .andWhereRaw(`${this.tableName}.perm_sub_dom_name IS NOT NULL`)
-      .groupBy(`${this.tableName}.perm_sub_dom_name`)
-      .orderBy(`${this.tableName}.perm_sub_dom_name`, 'asc');
+      .andWhereRaw(`${this.table_name}.perm_sub_dom_name IS NOT NULL`)
+      .groupBy(`${this.table_name}.perm_sub_dom_name`)
+      .orderBy(`${this.table_name}.perm_sub_dom_name`, 'asc');
 
     return query;
   }
@@ -70,14 +70,14 @@ export class PermissionMysqlRepository extends MysqlBaseRepository implements IP
   async findAllBySystemNameAndDomainName(
     input: PermissionRepositoryFindAllBySystemNameAndDomainNameInput
   ): Promise<PermissionDto[]> {
-    const query = this.connection(this.tableName).select<PermissionDto[]>();
+    const query = this.connection(this.table_name).select<PermissionDto[]>();
 
     this.setPermissionDomainJoin(query);
 
     query
       .where('permissions_domains.perm_dom_name', input.domain_name)
       .andWhere('permissions_domains.perm_system_name', input.system_name)
-      .andWhereRaw(`${this.tableName}.perm_sub_dom_name IS NULL`);
+      .andWhereRaw(`${this.table_name}.perm_sub_dom_name IS NULL`);
 
     return query;
   }
@@ -85,25 +85,25 @@ export class PermissionMysqlRepository extends MysqlBaseRepository implements IP
   async findAllBySystemNameAndDomainNameAndSubDomain(
     input: PermissionRepositoryFindAllBySystemNameAndDomainNameAndSubDomainInput
   ): Promise<PermissionDto[]> {
-    const query = this.connection(this.tableName).select<PermissionDto[]>();
+    const query = this.connection(this.table_name).select<PermissionDto[]>();
 
     this.setPermissionDomainJoin(query);
 
     query
       .where('permissions_domains.perm_dom_name', input.domain_name)
       .andWhere('permissions_domains.perm_system_name', input.system_name)
-      .andWhere(`${this.tableName}.perm_sub_dom_name`, input.sub_domain);
+      .andWhere(`${this.table_name}.perm_sub_dom_name`, input.sub_domain);
 
     return query;
   }
 
   async findAllByGroupId(group_id: number): Promise<PermissionDto[]> {
-    const query = this.connection(this.tableName).select<PermissionDto[]>(
-      `${this.tableName}.perm_id`,
-      `${this.tableName}.perm_name`,
-      `${this.tableName}.perm_sub_dom_name`,
-      `${this.tableName}.created_at`,
-      `${this.tableName}.updated_at`,
+    const query = this.connection(this.table_name).select<PermissionDto[]>(
+      `${this.table_name}.perm_id`,
+      `${this.table_name}.perm_name`,
+      `${this.table_name}.perm_sub_dom_name`,
+      `${this.table_name}.created_at`,
+      `${this.table_name}.updated_at`,
       'permissions_domains.perm_dom_id',
       'permissions_domains.perm_system_name',
       'permissions_domains.perm_dom_name'
@@ -112,33 +112,33 @@ export class PermissionMysqlRepository extends MysqlBaseRepository implements IP
     this.setPermissionDomainJoin(query);
     this.setGroupJoin(query);
 
-    query.where('´groups´.group_id', group_id).orderBy(`${this.tableName}.perm_name`, 'asc');
+    query.where('´groups´.group_id', group_id).orderBy(`${this.table_name}.perm_name`, 'asc');
 
     return query;
   }
 
   async findById(id: number): Promise<PermissionDto | null> {
-    const query = this.connection(this.tableName).select<PermissionDto>();
+    const query = this.connection(this.table_name).select<PermissionDto>();
 
     this.setPermissionDomainJoin(query);
 
-    query.where(`${this.tableName}.perm_id`, id).first();
+    query.where(`${this.table_name}.perm_id`, id).first();
 
     return this.validateEntityExist(await query);
   }
 
   async findByName(name: string): Promise<PermissionDto | null> {
-    const query = this.connection(this.tableName).select<PermissionDto>();
+    const query = this.connection(this.table_name).select<PermissionDto>();
 
     this.setPermissionDomainJoin(query);
 
-    query.where(`${this.tableName}.perm_name`, name).first();
+    query.where(`${this.table_name}.perm_name`, name).first();
 
     return this.validateEntityExist(await query);
   }
 
   async create(input: PermissionRepositoryCreateInput): Promise<PermissionDto> {
-    const [createdId] = await this.connection(this.tableName).insert({
+    const [createdId] = await this.connection(this.table_name).insert({
       perm_name: input.name,
       perm_sub_dom_name: input.sub_domain,
       perm_dom_id: input.domain_id
@@ -156,12 +156,12 @@ export class PermissionMysqlRepository extends MysqlBaseRepository implements IP
 
   private setGroupJoin(builder: Knex.QueryBuilder) {
     builder
-      .join('groups_permissions', 'groups_permissions.group_perm_perm_id', `${this.tableName}.perm_id`)
+      .join('groups_permissions', 'groups_permissions.group_perm_perm_id', `${this.table_name}.perm_id`)
       .join('´groups´', '´groups´.group_id', 'groups_permissions.group_perm_group_id');
   }
 
   private setPermissionDomainJoin(builder: Knex.QueryBuilder) {
-    builder.join('permissions_domains', 'permissions_domains.perm_dom_id', `${this.tableName}.perm_dom_id`);
+    builder.join('permissions_domains', 'permissions_domains.perm_dom_id', `${this.table_name}.perm_dom_id`);
   }
 
   // #endregion

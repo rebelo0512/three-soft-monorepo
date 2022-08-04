@@ -86,7 +86,7 @@ describe('PermissionFindAllByGroupIdUseCase Integration Tests', () => {
 
   it('should throw error when gorup not found', async () => {
     await expect(async () => findAllByGroupIdUseCase.execute({ group_id: 0 })).rejects.toThrowError(
-      `Entidade não encontrada pelo(a) id: 0`
+      `Grupo não encontrada pelo(a) id: 0`
     );
   });
 });

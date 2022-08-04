@@ -3,25 +3,25 @@ import { Knex } from 'knex';
 import { GroupDto, GroupRepositoryUpdatePermissionsInput, IGroupRepository, PermissionDto } from '../../../../domain';
 
 export class GroupMysqlRepository extends MysqlBaseRepository implements IGroupRepository {
-  tableName = '´groups´';
+  table_name = '´groups´';
 
   constructor() {
     super(DatabaseMysqlConnection);
   }
 
   async findAll(): Promise<GroupDto[]> {
-    return this.connection(this.tableName).select<GroupDto[]>().orderBy('group_name', 'asc');
+    return this.connection(this.table_name).select<GroupDto[]>().orderBy('group_name', 'asc');
   }
 
   async search(name: string | null | undefined): Promise<GroupDto[]> {
-    return this.connection(this.tableName)
+    return this.connection(this.table_name)
       .select<GroupDto[]>()
       .where('group_name', 'LIKE', `%${name || ''}%`)
       .orderBy('group_name', 'asc');
   }
 
   async findById(id: number): Promise<GroupDto | null> {
-    const query = await this.connection(this.tableName)
+    const query = await this.connection(this.table_name)
       .select<GroupDto[]>()
       .where('group_id', id)
       .orderBy('group_name', 'asc')
@@ -31,7 +31,7 @@ export class GroupMysqlRepository extends MysqlBaseRepository implements IGroupR
   }
 
   async findByName(name: string): Promise<GroupDto | null> {
-    const query = await this.connection(this.tableName)
+    const query = await this.connection(this.table_name)
       .select<GroupDto[]>()
       .where('group_name', name)
       .orderBy('group_name', 'asc')
@@ -41,7 +41,7 @@ export class GroupMysqlRepository extends MysqlBaseRepository implements IGroupR
   }
 
   async create(name: string): Promise<GroupDto> {
-    const [createdId] = await this.connection(this.tableName).insert({
+    const [createdId] = await this.connection(this.table_name).insert({
       group_name: name
     });
 
@@ -77,7 +77,7 @@ export class GroupMysqlRepository extends MysqlBaseRepository implements IGroupR
     try {
       await this.connection('groups_permissions').transacting(transaction).where('group_perm_group_id', id).delete();
 
-      await this.connection(this.tableName).transacting(transaction).where('group_id', id).delete();
+      await this.connection(this.table_name).transacting(transaction).where('group_id', id).delete();
 
       await transaction.commit();
     } catch (err) {

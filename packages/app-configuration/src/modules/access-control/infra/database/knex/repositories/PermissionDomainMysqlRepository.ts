@@ -8,24 +8,24 @@ import {
 } from '../../../../domain';
 
 export class PermissionDomainMysqlRepository extends MysqlBaseRepository implements IPermissionDomainRepository {
-  tableName = 'permissions_domains';
+  table_name = 'permissions_domains';
 
   constructor() {
     super(DatabaseMysqlConnection);
   }
 
   async findAllSystems(): Promise<PermissionDomainRepositoryFindAllSystemsOutput[]> {
-    return this.connection(this.tableName)
+    return this.connection(this.table_name)
       .select<PermissionDomainRepositoryFindAllSystemsOutput[]>('perm_system_name')
       .groupBy('perm_system_name');
   }
 
   async findAllDomainBySystemName(system_name: string): Promise<PermissionDomainDto[]> {
-    return this.connection(this.tableName).select<PermissionDomainDto[]>('*').where('perm_system_name', system_name);
+    return this.connection(this.table_name).select<PermissionDomainDto[]>('*').where('perm_system_name', system_name);
   }
 
   async findById(id: number): Promise<PermissionDomainDto | null> {
-    const permission_domain = await this.connection(this.tableName)
+    const permission_domain = await this.connection(this.table_name)
       .select<PermissionDomainDto>('*')
       .where('perm_dom_id', id)
       .first();
@@ -34,7 +34,7 @@ export class PermissionDomainMysqlRepository extends MysqlBaseRepository impleme
   }
 
   async findByName(name: string): Promise<PermissionDomainDto | null> {
-    const permission_domain = await this.connection(this.tableName)
+    const permission_domain = await this.connection(this.table_name)
       .select<PermissionDomainDto>('*')
       .where('perm_dom_name', name)
       .first();
@@ -45,7 +45,7 @@ export class PermissionDomainMysqlRepository extends MysqlBaseRepository impleme
   async findBySystemNameAndName(
     input: PermissionDomainRepositoryFindBySystemNameAndNameInput
   ): Promise<PermissionDomainDto | null> {
-    const permission_domain = await this.connection(this.tableName)
+    const permission_domain = await this.connection(this.table_name)
       .select<PermissionDomainDto>('*')
       .where('perm_dom_name', input.name)
       .andWhere('perm_system_name', input.system_name)
@@ -55,7 +55,7 @@ export class PermissionDomainMysqlRepository extends MysqlBaseRepository impleme
   }
 
   async create(input: PermissionDomainRepositoryCreateInput): Promise<PermissionDomainDto> {
-    const [id] = await this.connection(this.tableName).insert({
+    const [id] = await this.connection(this.table_name).insert({
       perm_system_name: input.system_name,
       perm_dom_name: input.name
     });

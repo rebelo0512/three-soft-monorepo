@@ -31,7 +31,7 @@ export class PermissionFindAllByDomainNameUseCase extends BaseUseCase<
       name: input.domain_name
     });
 
-    if (!domain) throw new EntityNotFoundError(input.domain_name, 'nome');
+    if (!domain) throw new EntityNotFoundError('Domínio da Permissão', input.domain_name, 'nome');
 
     return this.permissionRepository.findAllSubDomainsByDomainId(domain.perm_dom_id);
   }

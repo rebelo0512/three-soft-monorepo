@@ -59,6 +59,6 @@ describe('PermissionCreateUseCase Integration Tests', () => {
         name: 'Permission 01',
         sub_domain: null
       })
-    ).rejects.toThrowError(`Entidade não encontrada pelo(a) nome: ${string_error}`);
+    ).rejects.toThrowError(`Domínio da Permissão não encontrada pelo(a) nome: ${string_error}`);
   });
 });

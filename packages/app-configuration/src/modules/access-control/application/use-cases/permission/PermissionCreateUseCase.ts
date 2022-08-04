@@ -33,7 +33,7 @@ export class PermissionCreateUseCase extends BaseUseCase<PermissionCreateInputDt
       system_name: input.system_name
     });
 
-    if (!permission_domain) throw new EntityNotFoundError(input.domain, 'nome');
+    if (!permission_domain) throw new EntityNotFoundError('Domínio da Permissão', input.domain, 'nome');
 
     return permission_domain;
   }

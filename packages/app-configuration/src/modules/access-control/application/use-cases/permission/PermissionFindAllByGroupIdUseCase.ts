@@ -20,7 +20,7 @@ export class PermissionFindAllByGroupIdUseCase extends BaseUseCase<PermissionFin
   private async getGroup(input: PermissionFindByGroupIdInputDto) {
     const group = await this.groupRepository.findById(input.group_id);
 
-    if (!group) throw new EntityNotFoundError(input.group_id, 'id');
+    if (!group) throw new EntityNotFoundError('Grupo', input.group_id, 'id');
 
     return group;
   }
