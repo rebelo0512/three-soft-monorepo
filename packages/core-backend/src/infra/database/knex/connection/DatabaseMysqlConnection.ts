@@ -3,7 +3,7 @@ import { connectionMysqlFactory } from '.';
 
 /* c8 ignore start */
 config({
-  path: process.env.NODE_ENV === 'test' ? `.env.test` : '.env'
+  path: `${__dirname}/../../../../../../../${process.env.NODE_ENV === 'test' ? '.env.test' : '.env'}`
 });
 
 export const DatabaseMysqlConnection = connectionMysqlFactory({
