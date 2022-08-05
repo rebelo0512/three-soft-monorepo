@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "all:run": "npm run -ws",
+    "all:test": "npm run -ws test",
     "core-backend:run": "npm run -w @three-soft/core-backend",
     "app-main:run": "npm run -w @three-soft/app-main"
   },
