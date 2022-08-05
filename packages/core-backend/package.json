@@ -8,7 +8,7 @@
     "build": "rm -rf dist/* && tsc -b tsconfig.pkg.json",
     "lint": "eslint .  --no-fix --max-warnings 0",
     "test": "jest --runInBand --detectOpenHandles --verbose",
-    "test:coverage": "jest --runInBand --detectOpenHandles --verbose --coverage",
+    "test:coverage": "jest --runInBand --detectOpenHandles --coverage",
     "test:integration": "jest --testPathPattern=tests/integration --runInBand --detectOpenHandles --verbose",
     "test:unit": "jest --testPathPattern=tests/unit --runInBand --detectOpenHandles --verbose"
   },
