@@ -7,7 +7,7 @@ import defaultConfig from '../../jest.default.config';
 
 export default {
   ...defaultConfig,
-  displayName: 'app-configuration',
+  displayName: 'pkg-configuration',
   roots: ['<rootDir>'],
-  coverageDirectory: '../../__coverage__/app-configuration'
+  coverageDirectory: '../../__coverage__/pkg-configuration'
 };
