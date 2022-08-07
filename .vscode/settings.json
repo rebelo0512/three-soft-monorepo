@@ -1,6 +1,17 @@
 {
-    "cSpell.words": [
-        "airbnb",
-        "dtos"
-    ]
+  "cSpell.words": [
+    "airbnb",
+    "Datacom",
+    "dtos",
+    "Errorln",
+    "Exitf",
+    "Exitln",
+    "fastify",
+    "Fastify",
+    "FIBERHOME",
+    "glog",
+    "lcov",
+    "nestjs",
+    "vlan"
+  ]
 }

@@ -5,12 +5,14 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "apps/*"
   ],
   "scripts": {
     "all:test": "npm run -ws test",
-    "core-backend:run": "npm run -w @three-soft/core-backend",
-    "app-main:run": "npm run -w @three-soft/app-main"
+    "all:test:coverage": "npm run -ws test:coverage",
+    "pkg-configuration:run": "npm run -w @three-soft/pkg-configuration",
+    "core-backend:run": "npm run -w @three-soft/core-backend"
   },
   "packageManager": "yarn@3.2.1",
   "devDependencies": {
