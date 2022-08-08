@@ -1,6 +1,11 @@
 import { generateString } from '@three-soft/core-backend';
 import { Knex } from 'knex';
-import { PermissionDto, IPermissionRepository, PermissionRepositoryCreateInput } from '../../../src';
+import {
+  PermissionDto,
+  IPermissionRepository,
+  PermissionRepositoryCreateInput,
+  cleanPermissionDomainDB
+} from '../../../src';
 
 export async function createPermission(
   repository: IPermissionRepository,
@@ -36,6 +41,5 @@ export async function createPermissions(
 
 export async function cleanPermissionDB(connection: Knex) {
   await connection('groups_permissions').delete();
-  await connection('permissions').delete();
-  await connection('permissions_domains').delete();
+  await cleanPermissionDomainDB(connection);
 }
