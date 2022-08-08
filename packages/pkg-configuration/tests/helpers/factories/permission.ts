@@ -1,11 +1,7 @@
 import { generateString } from '@three-soft/core-backend';
 import { Knex } from 'knex';
-import {
-  PermissionDto,
-  IPermissionRepository,
-  PermissionRepositoryCreateInput,
-  cleanPermissionDomainDB
-} from '../../../src';
+import { PermissionDto, IPermissionRepository, PermissionRepositoryCreateInput } from '../../../src';
+import { cleanPermissionDomainDB } from '.';
 
 export async function createPermission(
   repository: IPermissionRepository,
