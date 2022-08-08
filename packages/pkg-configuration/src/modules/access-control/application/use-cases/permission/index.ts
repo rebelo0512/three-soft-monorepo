@@ -4,3 +4,4 @@ export * from './PermissionFindAllByGroupIdUseCase';
 export * from './PermissionFindAllBySubDomainUseCase';
 export * from './PermissionFindAllDomainsBySystemNameUseCase';
 export * from './PermissionFindAllSystemsUseCase';
+export * from './PermissionFindAllByUserIdUseCase';

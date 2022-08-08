@@ -6,3 +6,4 @@ export * from './PermissionFindByGroupIdDto';
 export * from './PermissionFindAllBySubDomainDto';
 export * from './PermissionFindAllDomainsBySystemNameDto';
 export * from './PermissionFindAllSystemsDto';
+export * from './PermissionFindAllByUserIdDto';
