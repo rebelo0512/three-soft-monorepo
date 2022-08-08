@@ -14,7 +14,6 @@ import { GroupController, PermissionController } from './controllers';
     ...group_repositories_provider,
     ...permission_repositories_provider,
     ...permission_use_cases_provider
-  ],
-  exports: []
+  ]
 })
 export class AccessControlModule {}

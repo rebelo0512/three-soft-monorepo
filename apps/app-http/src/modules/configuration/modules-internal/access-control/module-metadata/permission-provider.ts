@@ -9,8 +9,12 @@ import {
   IGroupRepository,
   PermissionFindAllBySubDomainUseCase,
   PermissionFindAllDomainsBySystemNameUseCase,
-  PermissionFindAllSystemsUseCase
+  PermissionFindAllSystemsUseCase,
+  PermissionFindAllByUserIdUseCase,
+  IUserRepository
 } from '@three-soft/pkg-configuration';
+
+import { user_repositories_provider } from '../../user';
 
 export const permission_use_cases_provider = [
   {
@@ -32,6 +36,12 @@ export const permission_use_cases_provider = [
     inject: [IPermissionRepository.name, IGroupRepository.name]
   },
   {
+    provide: PermissionFindAllByUserIdUseCase.name,
+    useFactory: (repository: IPermissionRepository, groupRepository: IUserRepository) =>
+      new PermissionFindAllByUserIdUseCase(repository, groupRepository),
+    inject: [IPermissionRepository.name, IUserRepository.name]
+  },
+  {
     provide: PermissionFindAllBySubDomainUseCase.name,
     useFactory: (repository: IPermissionRepository) => new PermissionFindAllBySubDomainUseCase(repository),
     inject: [IPermissionRepository.name]
@@ -51,6 +61,7 @@ export const permission_use_cases_provider = [
 ];
 
 export const permission_repositories_provider = [
+  ...user_repositories_provider,
   {
     provide: IPermissionRepository.name,
     useClass: PermissionMysqlRepository

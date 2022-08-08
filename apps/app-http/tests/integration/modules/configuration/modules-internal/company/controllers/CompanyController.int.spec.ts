@@ -56,13 +56,6 @@ describe('CompanyController Integration Tests', () => {
         }
       ]);
     });
-
-    it('must return a empty array of company', async () => {
-      const companies = await controller.findAll();
-
-      expect(companies.length).toBe(0);
-      expect(companies).toEqual([]);
-    });
   });
 
   describe('findById', () => {

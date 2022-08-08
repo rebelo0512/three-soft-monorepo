@@ -7,7 +7,8 @@ import {
   PermissionFindByDomainNameInputDto,
   PermissionFindAllDomainsBySystemNameUseCase,
   PermissionCreateUseCase,
-  PermissionCreateInputDto
+  PermissionCreateInputDto,
+  PermissionFindAllByUserIdUseCase
 } from '@three-soft/pkg-configuration';
 
 @Controller('permission')
@@ -15,6 +16,8 @@ export class PermissionController {
   constructor(
     @Inject(PermissionFindAllByGroupIdUseCase.name)
     private permissionFindAllByGroupIdUseCase: PermissionFindAllByGroupIdUseCase,
+    @Inject(PermissionFindAllByUserIdUseCase.name)
+    private permissionFindAllByUserIdUseCase: PermissionFindAllByUserIdUseCase,
     @Inject(PermissionFindAllSystemsUseCase.name)
     private permissionFindAllSystemsUseCase: PermissionFindAllSystemsUseCase,
     @Inject(PermissionFindAllBySubDomainUseCase.name)
@@ -32,15 +35,15 @@ export class PermissionController {
     return this.permissionFindAllByGroupIdUseCase.execute({ group_id });
   }
 
-  @Get('/system/all')
-  findAllSystem() {
-    return this.permissionFindAllSystemsUseCase.execute();
+  @Get('/user')
+  findAllByUserId(@Query('id_user') id_user: number) {
+    return this.permissionFindAllByUserIdUseCase.execute({ user_id: id_user });
   }
 
-  // @Get('/user')
-  // findByUserId() {
-  //   return this.permissionFindByUserId.handle(req, res);
-  // }
+  @Get('/system/all')
+  findAllSystems() {
+    return this.permissionFindAllSystemsUseCase.execute();
+  }
 
   @Get('/system/domain')
   findAllByDomainName(@Query() dto: PermissionFindByDomainNameInputDto) {

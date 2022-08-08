@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Post, Put, Query } from '@nestjs/common';
 import {
   GroupCreateInputDto,
   GroupCreateUseCase,
@@ -38,7 +38,7 @@ export class GroupController {
   }
 
   @Put('/:id')
-  update(@Body() dto: GroupUpdateInputDto) {
-    return this.groupUpdateUseCase.execute(dto);
+  update(@Param('id') id: number, @Body() dto: GroupUpdateInputDto) {
+    return this.groupUpdateUseCase.execute({ ...dto, id });
   }
 }

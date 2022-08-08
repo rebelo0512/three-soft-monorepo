@@ -36,6 +36,11 @@ GET {{host}}/configuration/api/access_control/permission/group
 ?group_id=1
 
 
+### Find All By User Id
+GET {{host}}/configuration/api/access_control/permission/user
+?id_user=1
+
+
 ### Find All System
 GET {{host}}/configuration/api/access_control/permission/system/all
 
