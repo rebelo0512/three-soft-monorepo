@@ -1,0 +1,28 @@
+### Find All
+GET {{host}}/configuration/api/company
+
+
+### Find By Id
+GET {{host}}/configuration/api/company/1
+
+
+### Create
+POST {{host}}/configuration/api/company
+Content-Type: application/json
+
+{
+  "name": "Company",
+  "cnpj": "11012728994",
+  "vlan": 1212
+}
+
+
+### Update
+PUT {{host}}/configuration/api/company/1
+Content-Type: application/json
+
+{
+  "name": "Company",
+  "cnpj": "11012728994321",
+  "vlan": 1212
+}

@@ -1,0 +1,67 @@
+// #region Group
+
+### Find All
+GET {{host}}/configuration/api/access_control/group
+
+
+### Search
+GET {{host}}/configuration/api/access_control/group/search
+?name=
+
+
+### Create
+POST {{host}}/configuration/api/access_control/group
+Content-Type: application/json
+
+{
+  "name": "Group 01"
+}
+
+
+### Update
+PUT  {{host}}/configuration/api/access_control/group/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "system": "LIBERACAO"
+}
+
+// #endregion
+
+// #region Permission
+
+### Find All By Group Id
+GET {{host}}/configuration/api/access_control/permission/group
+?group_id=1
+
+
+### Find All System
+GET {{host}}/configuration/api/access_control/permission/system/all
+
+
+### Find All By Domain Name
+GET {{host}}/configuration/api/access_control/permission/system/domain
+?system_name=FIBER_THREE
+&domain_name=LIBERAÇÃO
+
+
+### Find All By System Name
+GET {{host}}/configuration/api/access_control/permission/system/FIBER_THREE
+
+
+### Find All By Sub Domain
+GET {{host}}/configuration/api/access_control/permission/system/sub_domain/FILA
+
+
+### Create
+POST {{host}}/configuration/api/access_control/permission
+Content-Type: application/json
+
+{
+  "system_name": "FIBER_THREE",
+  "domain": "LIBERAÇÃO",
+  "name": "Group 01"
+}
+
+// #endregion
