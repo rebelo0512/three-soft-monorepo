@@ -1,0 +1,8 @@
+### Auth
+POST {{host}}/configuration/api/auth
+Content-Type: application/json
+
+{
+  "email": "demo@neorede.com.br",
+  "password": "demo"
+}
