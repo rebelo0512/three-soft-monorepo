@@ -2,8 +2,8 @@
   "name": "@three-soft/pkg-configuration",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "scripts": {
     "build": "rm -rf dist/* && tsc -b tsconfig.pkg.json",
     "lint": "eslint .  --no-fix --max-warnings 0",
