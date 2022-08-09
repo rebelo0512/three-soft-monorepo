@@ -2,15 +2,18 @@
 
 ### Find All
 GET {{host}}/configuration/api/access_control/group
+{{tokenacess}}
 
 
 ### Search
 GET {{host}}/configuration/api/access_control/group/search
 ?name=
+{{tokenacess}}
 
 
 ### Create
 POST {{host}}/configuration/api/access_control/group
+{{tokenacess}}
 Content-Type: application/json
 
 {
@@ -20,6 +23,7 @@ Content-Type: application/json
 
 ### Update
 PUT  {{host}}/configuration/api/access_control/group/1
+{{tokenacess}}
 Content-Type: application/json
 
 {
@@ -34,33 +38,40 @@ Content-Type: application/json
 ### Find All By Group Id
 GET {{host}}/configuration/api/access_control/permission/group
 ?group_id=1
+{{tokenacess}}
 
 
 ### Find All By User Id
 GET {{host}}/configuration/api/access_control/permission/user
 ?id_user=1
+{{tokenacess}}
 
 
 ### Find All System
 GET {{host}}/configuration/api/access_control/permission/system/all
+{{tokenacess}}
 
 
 ### Find All By Domain Name
 GET {{host}}/configuration/api/access_control/permission/system/domain
 ?system_name=FIBER_THREE
 &domain_name=LIBERAÇÃO
+{{tokenacess}}
 
 
 ### Find All By System Name
 GET {{host}}/configuration/api/access_control/permission/system/FIBER_THREE
+{{tokenacess}}
 
 
 ### Find All By Sub Domain
 GET {{host}}/configuration/api/access_control/permission/system/sub_domain/FILA
+{{tokenacess}}
 
 
 ### Create
 POST {{host}}/configuration/api/access_control/permission
+{{tokenacess}}
 Content-Type: application/json
 
 {

@@ -3,6 +3,6 @@ POST {{host}}/configuration/api/auth
 Content-Type: application/json
 
 {
-  "email": "demo@neorede.com.br",
-  "password": "demo"
+  "email": "marcelo.rebelo@neorede.com.br",
+  "password": "4791688641"
 }

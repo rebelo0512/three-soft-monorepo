@@ -1,13 +1,16 @@
 ### Find All
 GET {{host}}/configuration/api/company
+{{tokenacess}}
 
 
 ### Find By Id
 GET {{host}}/configuration/api/company/1
+{{tokenacess}}
 
 
 ### Create
 POST {{host}}/configuration/api/company
+{{tokenacess}}
 Content-Type: application/json
 
 {
@@ -19,6 +22,7 @@ Content-Type: application/json
 
 ### Update
 PUT {{host}}/configuration/api/company/1
+{{tokenacess}}
 Content-Type: application/json
 
 {

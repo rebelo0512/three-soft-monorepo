@@ -1,0 +1,55 @@
+### Find All
+GET {{host}}/configuration/api/user
+{{tokenacess}}
+
+
+### Search
+GET {{host}}/configuration/api/user/search
+?name=
+&email=
+{{tokenacess}}
+
+
+### My Information
+GET {{host}}/configuration/api/user/my_information
+{{tokenacess}}
+
+
+### Find By Id
+GET {{host}}/configuration/api/user/2
+{{tokenacess}}
+
+
+### Create
+POST {{host}}/configuration/api/user
+{{tokenacess}}
+
+{
+  "name": "",
+  "email": "",
+  "password": "",
+  "group": "",
+  "company": ""
+}
+
+
+### Update
+PUT {{host}}/configuration/api/user/1
+{{tokenacess}}
+
+{
+  "name": "",
+  "email": "",
+  "password": null,
+  "status": true,
+  "group": ""
+}
+
+
+### Update Password
+PATCH {{host}}/configuration/api/user/1/password
+{{tokenacess}}
+
+{
+  "password": null,
+}
