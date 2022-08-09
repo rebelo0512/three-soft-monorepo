@@ -1,2 +1,2 @@
 export * from './logRequestsMiddleware';
-export * from './checkUserTokenIsValid';
+export * from './checkUserTokenIsValidMiddleware';
