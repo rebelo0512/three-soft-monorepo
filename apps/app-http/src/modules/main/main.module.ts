@@ -1,7 +1,12 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigurationModule } from '../configuration';
+import { checkUserTokenIsValid } from '../../middlewares';
 
 @Module({
   imports: [ConfigurationModule]
 })
-export class MainModule {}
+export class MainModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(checkUserTokenIsValid).exclude('/configuration/api/auth').forRoutes('(.*)/api/(.*)');
+  }
+}
