@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { logRequestsMiddleware } from '../../../src/middlewares';
 
-const mockReq = (method: string) => {
+const mockReq = (method: string | null) => {
   const req: any = {};
   req.method = method;
   req.ip = '127.0.0.1';
@@ -18,7 +18,7 @@ const mockRes = () => {
 
 describe('logRequestsMiddleware Unit Tests', () => {
   it('must call all type methods and not get error', () => {
-    const methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
+    const methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', null];
 
     methods.forEach((method) => {
       const mockedNext = jest.fn();

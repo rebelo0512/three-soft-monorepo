@@ -67,7 +67,7 @@ describe('CompanyController Integration Tests', () => {
       expect(company).toEqual(company_created);
     });
 
-    it('must return a empty array of company', async () => {
+    it('should throw an error if company not found', async () => {
       await expect(() => controller.findById(0)).rejects.toThrowError('Empresa não encontrada pelo(a) id: 0');
     });
   });
@@ -107,7 +107,7 @@ describe('CompanyController Integration Tests', () => {
       });
     });
 
-    it('must return a empty array of company', async () => {
+    it('should throw an error if company not found', async () => {
       const id_wrong = Math.floor(Math.random() * 1000);
 
       await expect(() =>

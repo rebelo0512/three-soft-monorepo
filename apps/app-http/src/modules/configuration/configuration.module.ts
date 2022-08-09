@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
-import { CompanyModule, AccessControlModule, UserModule, AuthModule } from './modules-internal';
+import { CompanyModule, AccessControlModule, UserModule, AuthModule, CityModule } from './modules-internal';
 
 @Module({
   imports: [
@@ -8,14 +8,15 @@ import { CompanyModule, AccessControlModule, UserModule, AuthModule } from './mo
     CompanyModule,
     AccessControlModule,
     AuthModule,
+    CityModule,
     RouterModule.register([
-      {
-        path: 'configuration/api',
-        module: CompanyModule
-      },
       {
         path: 'configuration/api/access_control',
         module: AccessControlModule
+      },
+      {
+        path: 'configuration/api',
+        module: CompanyModule
       },
       {
         path: 'configuration/api',
@@ -24,6 +25,10 @@ import { CompanyModule, AccessControlModule, UserModule, AuthModule } from './mo
       {
         path: 'configuration/api',
         module: AuthModule
+      },
+      {
+        path: 'configuration/api',
+        module: CityModule
       }
     ])
   ]
