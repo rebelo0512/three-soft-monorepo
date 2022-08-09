@@ -16,7 +16,7 @@ export function logRequestsMiddleware(req: Request, _res: Response, next: NextFu
   const method = req.method as MethodObjType;
 
   logger.log(
-    `${methodObj[method] || methodObj.GET} \n-> Method: ${req.method} -|- Host: ${req.ip} -|- Url: ${
+    `${methodObj[method] || methodObj.GET} \n-> Method: ${req.method || 'GET'} -|- Host: ${req.ip} -|- Url: ${
       req.originalUrl
     } \x1b[0m`
   );
