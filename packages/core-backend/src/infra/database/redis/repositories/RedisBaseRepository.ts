@@ -1,6 +1,7 @@
 import Redis from 'ioredis';
 import { ICacheBaseRepository } from '../../../../domain';
 
+/* c8 ignore start */
 export class RedisBaseRepository implements ICacheBaseRepository {
   key = '';
 
@@ -34,6 +35,10 @@ export class RedisBaseRepository implements ICacheBaseRepository {
     await this.connection?.del(this.key);
   }
 
+  getConnection() {
+    return this.connection;
+  }
+
   protected async validateConnection(): Promise<boolean> {
     try {
       const is_connected = await this.connection?.info();
@@ -47,4 +52,5 @@ export class RedisBaseRepository implements ICacheBaseRepository {
       return false;
     }
   }
+  /* c8 ignore stop */
 }

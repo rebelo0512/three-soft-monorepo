@@ -35,7 +35,7 @@ class StubMysqlRepository extends MysqlBaseRepository {
   }
 }
 
-describe('MysqlBaseRepository Integration Tests', () => {
+describe('MysqlBaseRepository Unit Tests', () => {
   const mysqlConnection = connectionMysqlFactory({
     host: 'host',
     port: 3306,
