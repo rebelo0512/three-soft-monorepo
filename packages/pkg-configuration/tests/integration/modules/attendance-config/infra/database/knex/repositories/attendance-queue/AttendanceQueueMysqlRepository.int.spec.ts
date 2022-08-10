@@ -167,15 +167,14 @@ describe('AttendanceQueueMysqlRepository Integration Tests', () => {
       const queue_updated = await repository.update({
         id: queue_created.queue_id,
         name: 'Name 01',
-        color: '12',
-        tag: '121'
+        color: '12'
       });
 
       expect(queue_updated).toEqual({
         queue_id: expect.any(Number),
         queue_name: 'Name 01',
         queue_color: '12',
-        queue_tag: '121',
+        queue_tag: '3',
         created_at: expect.any(Date),
         updated_at: expect.any(Date)
       });

@@ -60,7 +60,6 @@ export class AttendanceQueueMysqlRepository extends MysqlBaseRepository implemen
     await this.connection(this.table_name)
       .update({
         queue_name: input.name,
-        queue_tag: input.tag,
         queue_color: input.color,
         updated_at: new Date()
       })
