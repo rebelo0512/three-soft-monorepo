@@ -34,12 +34,24 @@ export class CompanyController {
   }
 
   @Post()
-  create(@Body() dto: CompanyCreateInputDto) {
-    return this.companyCreateUseCase.execute(dto);
+  async create(@Body() dto: CompanyCreateInputDto) {
+    const company = await this.companyCreateUseCase.execute(dto);
+
+    return {
+      status: 'sucesso',
+      message: 'Empresa cadastrada com sucesso',
+      company
+    };
   }
 
   @Put(':id')
-  update(@Param('id') id: number, @Body() dto: CompanyUpdateInputDto) {
-    return this.companyUpdateUseCase.execute({ ...dto, id });
+  async update(@Param('id') id: number, @Body() dto: CompanyUpdateInputDto) {
+    const company = await this.companyUpdateUseCase.execute({ ...dto, id });
+
+    return {
+      status: 'sucesso',
+      message: 'Empresa atualizada com sucesso',
+      company
+    };
   }
 }

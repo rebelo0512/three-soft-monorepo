@@ -34,12 +34,24 @@ export class CityController {
   }
 
   @Post()
-  create(@Body() dto: CityCreateInputDto) {
-    return this.cityCreateUseCase.execute(dto);
+  async create(@Body() dto: CityCreateInputDto) {
+    const city = await this.cityCreateUseCase.execute(dto);
+
+    return {
+      status: 'sucesso',
+      message: 'Cidade cadastrada com sucesso',
+      city
+    };
   }
 
   @Put(':id')
-  update(@Param('id') id: number, @Body() dto: CityUpdateInputDto) {
-    return this.cityUpdateUseCase.execute({ ...dto, id });
+  async update(@Param('id') id: number, @Body() dto: CityUpdateInputDto) {
+    const city = await this.cityUpdateUseCase.execute({ ...dto, id });
+
+    return {
+      status: 'sucesso',
+      message: 'Cidade atualizada com sucesso',
+      city
+    };
   }
 }

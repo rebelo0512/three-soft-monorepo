@@ -54,17 +54,31 @@ export class UserController {
   }
 
   @Post()
-  create(@Body() dto: UserCreateInputDto) {
-    return this.userCreateUseCase.execute(dto);
+  async create(@Body() dto: UserCreateInputDto) {
+    const user = await this.userCreateUseCase.execute(dto);
+
+    return { status: 'sucesso', message: 'Usuário cadastrado com sucesso', user };
   }
 
   @Put('/:id')
-  update(@Param('id') id: number, @Body() dto: UserUpdateInputDto) {
-    return this.userUpdateUseCase.execute({ ...dto, id });
+  async update(@Param('id') id: number, @Body() dto: UserUpdateInputDto) {
+    const user = await this.userUpdateUseCase.execute({ ...dto, id });
+
+    return {
+      status: 'sucesso',
+      message: 'Usuário atualizado com sucesso',
+      user
+    };
   }
 
   @Patch('/:id/password')
-  updatePassword(@Param('id') id: number, @Body() dto: UserUpdatePasswordInputDto) {
-    return this.userUpdatePasswordUseCase.execute({ ...dto, id });
+  async updatePassword(@Param('id') id: number, @Body() dto: UserUpdatePasswordInputDto) {
+    const user = await this.userUpdatePasswordUseCase.execute({ ...dto, id });
+
+    return {
+      status: 'sucesso',
+      message: 'Senha atualizada com sucesso',
+      user
+    };
   }
 }

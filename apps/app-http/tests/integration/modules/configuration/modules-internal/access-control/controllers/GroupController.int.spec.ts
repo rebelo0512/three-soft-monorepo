@@ -7,13 +7,16 @@ import {
   createPermission,
   createPermissionDomain,
   IGroupRepository,
+  IPermissionCacheRepository,
   IPermissionDomainRepository,
-  IPermissionRepository
+  IPermissionRepository,
+  PermissionRedisRepository
 } from '@three-soft/pkg-configuration';
 import { GroupController } from '../../../../../../../src/modules';
 import { createAccessControlModule } from '../../../../../../helpers';
 
 describe('GroupController Integration Tests', () => {
+  let permissionCacheRepository: PermissionRedisRepository;
   let permissionDomainRepository: IPermissionDomainRepository;
   let permissionRepository: IPermissionRepository;
   let controller: GroupController;
@@ -22,6 +25,7 @@ describe('GroupController Integration Tests', () => {
   beforeAll(async () => {
     const moduleRef = await createAccessControlModule();
 
+    permissionCacheRepository = moduleRef.get<PermissionRedisRepository>(IPermissionCacheRepository.name);
     permissionDomainRepository = moduleRef.get<IPermissionDomainRepository>(IPermissionDomainRepository.name);
     permissionRepository = moduleRef.get<IPermissionRepository>(IPermissionRepository.name);
     repository = moduleRef.get<IGroupRepository>(IGroupRepository.name);
@@ -34,6 +38,7 @@ describe('GroupController Integration Tests', () => {
 
   afterAll(async () => {
     await DatabaseMysqlConnection.destroy();
+    permissionCacheRepository.getConnection()?.disconnect();
   });
 
   describe('findAll', () => {
@@ -108,7 +113,7 @@ describe('GroupController Integration Tests', () => {
     it('should create a group', async () => {
       const group = await controller.create({ name: 'Group 01' });
 
-      expect(group).toEqual({
+      expect(group.group).toEqual({
         group_id: expect.any(Number),
         group_name: 'Group 01',
         created_at: expect.any(Date),

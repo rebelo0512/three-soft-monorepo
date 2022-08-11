@@ -76,7 +76,7 @@ describe('CompanyController Integration Tests', () => {
     it('must create a company', async () => {
       const company = await controller.create({ name: 'Name Created', cnpj: 'CNPJ Created', vlan: 4389 });
 
-      expect(company).toEqual({
+      expect(company.company).toEqual({
         comp_id: expect.any(Number),
         comp_name: 'Name Created',
         comp_cnpj: 'CNPJ Created',
@@ -98,7 +98,7 @@ describe('CompanyController Integration Tests', () => {
         cnpj: 'CNPJ Updated'
       });
 
-      expect(company_updated).toEqual({
+      expect(company_updated.company).toEqual({
         ...company,
         comp_name: 'Name Updated',
         comp_vlan: 512,

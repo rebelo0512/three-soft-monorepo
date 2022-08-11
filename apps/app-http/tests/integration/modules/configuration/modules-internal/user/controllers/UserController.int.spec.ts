@@ -347,7 +347,7 @@ describe('UserController Integration Tests', () => {
         group: group.group_name
       });
 
-      expect(user_created).toEqual({
+      expect(user_created.user).toEqual({
         user_id: expect.any(Number),
         user_name: 'Name',
         user_email: 'demo@demo.com',
@@ -381,7 +381,7 @@ describe('UserController Integration Tests', () => {
         group: group.group_name
       });
 
-      const same_password = await hashComparedString(user_created.user_password, 'Password');
+      const same_password = await hashComparedString(user_created.user.user_password, 'Password');
 
       expect(same_password).toBeTruthy();
     });
@@ -432,7 +432,7 @@ describe('UserController Integration Tests', () => {
         status: false
       });
 
-      expect(user).toEqual({
+      expect(user.user).toEqual({
         user_id: expect.any(Number),
         user_name: 'Name Updated',
         user_email: 'email-updated@demo.com',
@@ -470,7 +470,7 @@ describe('UserController Integration Tests', () => {
         status: false
       });
 
-      const same_password = await hashComparedString(user.user_password, 'Password 01');
+      const same_password = await hashComparedString(user.user.user_password, 'Password 01');
 
       expect(same_password).toBeTruthy();
     });
@@ -519,7 +519,7 @@ describe('UserController Integration Tests', () => {
         password: 'Password 01'
       });
 
-      const same_password = await hashComparedString(user.user_password, 'Password 01');
+      const same_password = await hashComparedString(user.user.user_password, 'Password 01');
 
       expect(same_password).toBeTruthy();
     });

@@ -1,6 +1,13 @@
 import { Module } from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
-import { CompanyModule, AccessControlModule, UserModule, AuthModule, CityModule } from './modules-internal';
+import {
+  CompanyModule,
+  AccessControlModule,
+  UserModule,
+  AuthModule,
+  CityModule,
+  AttendanceConfigModule
+} from './modules-internal';
 
 @Module({
   imports: [
@@ -9,10 +16,15 @@ import { CompanyModule, AccessControlModule, UserModule, AuthModule, CityModule 
     AccessControlModule,
     AuthModule,
     CityModule,
+    AttendanceConfigModule,
     RouterModule.register([
       {
         path: 'configuration/api/access_control',
         module: AccessControlModule
+      },
+      {
+        path: 'configuration/api/attendance',
+        module: AttendanceConfigModule
       },
       {
         path: 'configuration/api',

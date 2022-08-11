@@ -33,12 +33,24 @@ export class GroupController {
   }
 
   @Post()
-  create(@Body() dto: GroupCreateInputDto) {
-    return this.groupCreateUseCase.execute(dto);
+  async create(@Body() dto: GroupCreateInputDto) {
+    const group = await this.groupCreateUseCase.execute(dto);
+
+    return {
+      status: 'sucesso',
+      message: 'Grupo cadastrado com sucesso',
+      group
+    };
   }
 
   @Put('/:id')
-  update(@Param('id') id: number, @Body() dto: GroupUpdateInputDto) {
-    return this.groupUpdateUseCase.execute({ ...dto, id });
+  async update(@Param('id') id: number, @Body() dto: GroupUpdateInputDto) {
+    const group = await this.groupUpdateUseCase.execute({ ...dto, id });
+
+    return {
+      status: 'sucesso',
+      message: 'Grupo atualizado com sucesso',
+      group
+    };
   }
 }

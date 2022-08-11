@@ -9,14 +9,17 @@ import {
   createUser,
   ICompanyRepository,
   IGroupRepository,
+  IPermissionCacheRepository,
   IPermissionDomainRepository,
   IPermissionRepository,
-  IUserRepository
+  IUserRepository,
+  PermissionRedisRepository
 } from '@three-soft/pkg-configuration';
 import { PermissionController } from '../../../../../../../src/modules';
 import { createAccessControlModule } from '../../../../../../helpers';
 
 describe('PermissionController Integration Tests', () => {
+  let permissionCacheRepository: PermissionRedisRepository;
   let companyRepository: ICompanyRepository;
   let userRepository: IUserRepository;
   let permissionDomainRepository: IPermissionDomainRepository;
@@ -27,6 +30,7 @@ describe('PermissionController Integration Tests', () => {
   beforeAll(async () => {
     const moduleRef = await createAccessControlModule();
 
+    permissionCacheRepository = moduleRef.get<PermissionRedisRepository>(IPermissionCacheRepository.name);
     companyRepository = moduleRef.get<ICompanyRepository>(ICompanyRepository.name);
     userRepository = moduleRef.get<IUserRepository>(IUserRepository.name);
     permissionDomainRepository = moduleRef.get<IPermissionDomainRepository>(IPermissionDomainRepository.name);
@@ -41,6 +45,7 @@ describe('PermissionController Integration Tests', () => {
 
   afterAll(async () => {
     await DatabaseMysqlConnection.destroy();
+    permissionCacheRepository.getConnection()?.disconnect();
   });
 
   describe('findAllByGroupId', () => {
@@ -325,7 +330,7 @@ describe('PermissionController Integration Tests', () => {
         sub_domain: null
       });
 
-      expect(permission).toEqual({
+      expect(permission.permission).toEqual({
         perm_id: expect.any(Number),
         perm_name: 'Permission 01',
         perm_sub_dom_name: null,

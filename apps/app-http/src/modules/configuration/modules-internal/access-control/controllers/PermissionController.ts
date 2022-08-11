@@ -61,7 +61,13 @@ export class PermissionController {
   }
 
   @Post()
-  create(@Body() dto: PermissionCreateInputDto) {
-    return this.permissionCreatePermissionCreateUseCase.execute(dto);
+  async create(@Body() dto: PermissionCreateInputDto) {
+    const permission = await this.permissionCreatePermissionCreateUseCase.execute(dto);
+
+    return {
+      status: 'sucesso',
+      message: 'Permissão cadastrada com sucesso',
+      permission
+    };
   }
 }

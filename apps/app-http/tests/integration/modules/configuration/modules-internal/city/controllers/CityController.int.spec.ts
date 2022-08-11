@@ -76,7 +76,7 @@ describe('CityController Integration Tests', () => {
     it('must create a city', async () => {
       const city = await controller.create({ name: 'Name Created', latitude: 12, longitude: 121 });
 
-      expect(city).toEqual({
+      expect(city.city).toEqual({
         city_id: expect.any(Number),
         city_name: 'Name Created',
         city_latitude: 12,
@@ -98,7 +98,7 @@ describe('CityController Integration Tests', () => {
         longitude: 121
       });
 
-      expect(city_updated).toEqual({
+      expect(city_updated.city).toEqual({
         ...city,
         city_name: 'Name Updated',
         city_latitude: 12,
