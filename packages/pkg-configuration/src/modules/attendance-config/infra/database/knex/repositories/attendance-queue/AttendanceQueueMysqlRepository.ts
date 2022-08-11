@@ -42,6 +42,8 @@ export class AttendanceQueueMysqlRepository extends MysqlBaseRepository implemen
   }
 
   async create(input: AttendanceQueueRepositoryCreateInput): Promise<AttendanceQueueDto> {
+    // TODO Need to create a tag and permission
+
     const [createdId] = await this.connection(this.table_name).insert({
       queue_name: input.name,
       queue_tag: input.tag,
@@ -74,6 +76,8 @@ export class AttendanceQueueMysqlRepository extends MysqlBaseRepository implemen
   }
 
   async delete(id: number): Promise<void> {
+    // TODO Need to delete the tag and permission
+
     await this.connection(this.table_name).where('queue_id', id).delete();
   }
 }
