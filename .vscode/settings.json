@@ -11,15 +11,18 @@
     "FIBERHOME",
     "glog",
     "lcov",
+    "LIBERACAO",
     "middlewares",
     "nestjs",
+    "setex",
     "tokenaccess",
     "vlan"
   ],
   "rest-client.environmentVariables": {
     "$shared": {},
     "local": {
-      "host": "http://localhost:3000"
+      "host": "http://localhost:20150",
+      "tokenacess": "tokenaccess: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZ3JvdXBfaWQiOjIsImlhdCI6MTY2MDE2MjU2NSwiZXhwIjoxNjYwMjQ4OTY1fQ.J_faW-ObkgoJBVnZ0WW_5UXWsLetBstFZFMQ9qwpVS8"
     },
     "production": {}
   }
