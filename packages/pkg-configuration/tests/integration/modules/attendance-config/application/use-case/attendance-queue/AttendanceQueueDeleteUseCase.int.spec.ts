@@ -2,15 +2,19 @@ import { DatabaseMysqlConnection } from '@three-soft/core-backend';
 import {
   AttendanceQueueDeleteUseCase,
   AttendanceQueueMysqlRepository,
-  IAttendanceQueueRepository
+  IAttendanceQueueRepository,
+  IPermissionDomainRepository,
+  PermissionDomainMysqlRepository
 } from '../../../../../../../src';
 import { cleanAttendanceQueueDB, createAttendanceQueue } from '../../../../../../helpers';
 
 describe('AttendanceQueueDeleteUseCase Integration Tests', () => {
+  let permissionDomainRepository: IPermissionDomainRepository;
   let repository: IAttendanceQueueRepository;
   let deleteUseCase: AttendanceQueueDeleteUseCase;
 
   beforeAll(async () => {
+    permissionDomainRepository = new PermissionDomainMysqlRepository();
     repository = new AttendanceQueueMysqlRepository();
     deleteUseCase = new AttendanceQueueDeleteUseCase(repository);
   });
@@ -24,7 +28,7 @@ describe('AttendanceQueueDeleteUseCase Integration Tests', () => {
   });
 
   it('should delete a queue', async () => {
-    const queue = await createAttendanceQueue(repository);
+    const queue = await createAttendanceQueue(repository, permissionDomainRepository);
 
     const queue_created = await repository.findById(queue.queue_id);
 

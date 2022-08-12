@@ -2,15 +2,19 @@ import { DatabaseMysqlConnection } from '@three-soft/core-backend';
 import {
   IAttendanceQueueRepository,
   AttendanceQueueFindByIdUseCase,
-  AttendanceQueueMysqlRepository
+  AttendanceQueueMysqlRepository,
+  IPermissionDomainRepository,
+  PermissionDomainMysqlRepository
 } from '../../../../../../../src';
 import { cleanAttendanceQueueDB, createAttendanceQueue } from '../../../../../../helpers';
 
 describe('AttendanceQueueFindByIdUseCase Integration Tests', () => {
+  let permissionDomainRepository: IPermissionDomainRepository;
   let repository: IAttendanceQueueRepository;
   let findByIdUseCase: AttendanceQueueFindByIdUseCase;
 
   beforeAll(async () => {
+    permissionDomainRepository = new PermissionDomainMysqlRepository();
     repository = new AttendanceQueueMysqlRepository();
     findByIdUseCase = new AttendanceQueueFindByIdUseCase(repository);
   });
@@ -24,7 +28,7 @@ describe('AttendanceQueueFindByIdUseCase Integration Tests', () => {
   });
 
   it('should return queue by id', async () => {
-    const queue_created = await createAttendanceQueue(repository);
+    const queue_created = await createAttendanceQueue(repository, permissionDomainRepository);
 
     const queue = await findByIdUseCase.execute({ id: queue_created.queue_id });
 

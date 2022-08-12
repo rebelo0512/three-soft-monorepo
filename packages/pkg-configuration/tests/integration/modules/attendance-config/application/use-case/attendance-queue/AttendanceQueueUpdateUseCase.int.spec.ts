@@ -2,15 +2,19 @@ import { DatabaseMysqlConnection } from '@three-soft/core-backend';
 import {
   AttendanceQueueUpdateUseCase,
   AttendanceQueueMysqlRepository,
-  IAttendanceQueueRepository
+  IAttendanceQueueRepository,
+  IPermissionDomainRepository,
+  PermissionDomainMysqlRepository
 } from '../../../../../../../src';
 import { cleanAttendanceQueueDB, createAttendanceQueue } from '../../../../../../helpers';
 
 describe('AttendanceQueueUpdateUseCase Integration Tests', () => {
+  let permissionDomainRepository: IPermissionDomainRepository;
   let repository: IAttendanceQueueRepository;
   let updateUseCase: AttendanceQueueUpdateUseCase;
 
   beforeAll(async () => {
+    permissionDomainRepository = new PermissionDomainMysqlRepository();
     repository = new AttendanceQueueMysqlRepository();
     updateUseCase = new AttendanceQueueUpdateUseCase(repository);
   });
@@ -24,7 +28,7 @@ describe('AttendanceQueueUpdateUseCase Integration Tests', () => {
   });
 
   it('should update a queue', async () => {
-    const queue = await createAttendanceQueue(repository);
+    const queue = await createAttendanceQueue(repository, permissionDomainRepository);
 
     const queue_updated = await updateUseCase.execute({
       id: queue.queue_id,

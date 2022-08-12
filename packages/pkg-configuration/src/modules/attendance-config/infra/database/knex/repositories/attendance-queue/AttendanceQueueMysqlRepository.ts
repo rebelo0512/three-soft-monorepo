@@ -1,4 +1,11 @@
-import { DatabaseMysqlConnection, EntityCreateError, MysqlBaseRepository } from '@three-soft/core-backend';
+import {
+  DatabaseMysqlConnection,
+  EntityCreateError,
+  EntityNotFoundError,
+  MysqlBaseRepository
+} from '@three-soft/core-backend';
+import { Knex } from 'knex';
+import { PermissionDomainDto } from '../../../../../../access-control/domain';
 import {
   AttendanceQueueDto,
   AttendanceQueueRepositoryCreateInput,
@@ -42,20 +49,30 @@ export class AttendanceQueueMysqlRepository extends MysqlBaseRepository implemen
   }
 
   async create(input: AttendanceQueueRepositoryCreateInput): Promise<AttendanceQueueDto> {
-    // TODO Need to create a tag and permission
+    const transaction = await this.connection.transaction();
 
-    const [createdId] = await this.connection(this.table_name).insert({
-      queue_name: input.name,
-      queue_tag: input.tag,
-      queue_color: input.color
-    });
+    try {
+      const [createdId] = await this.connection(this.table_name).transacting(transaction).insert({
+        queue_name: input.name,
+        queue_tag: input.tag,
+        queue_color: input.color
+      });
 
-    const queue = await this.findById(createdId);
+      await this.createTagToQueue(input, transaction);
+      await this.createPermissionToQueue(input, transaction);
 
-    /* c8 ignore next */
-    if (!queue) throw new EntityCreateError('Fila');
+      await transaction.commit();
 
-    return queue;
+      const queue = await this.findById(createdId);
+
+      /* c8 ignore next */
+      if (!queue) throw new EntityCreateError('Fila');
+
+      return queue;
+    } catch (err) {
+      await transaction.rollback();
+      throw err;
+    }
   }
 
   async update(input: AttendanceQueueRepositoryUpdateInput): Promise<AttendanceQueueDto> {
@@ -75,9 +92,74 @@ export class AttendanceQueueMysqlRepository extends MysqlBaseRepository implemen
     return queue;
   }
 
-  async delete(id: number): Promise<void> {
-    // TODO Need to delete the tag and permission
+  async delete(queue: AttendanceQueueDto): Promise<void> {
+    const transaction = await this.connection.transaction();
 
-    await this.connection(this.table_name).where('queue_id', id).delete();
+    try {
+      await this.connection(this.table_name).where('queue_id', queue.queue_id).delete();
+
+      await this.deleteTagToQueue(queue, transaction);
+      await this.deletePermissionToQueue(queue, transaction);
+
+      await transaction.commit();
+    } catch (err) {
+      await transaction.rollback();
+      throw err;
+    }
   }
+
+  // #region Create Methods
+
+  private async createTagToQueue(input: AttendanceQueueRepositoryCreateInput, transaction: Knex.Transaction) {
+    await this.connection('tags').transacting(transaction).insert({
+      tag_name: input.tag
+    });
+  }
+
+  private async createPermissionToQueue(input: AttendanceQueueRepositoryCreateInput, transaction: Knex.Transaction) {
+    const permission_domain = await this.findPermissionDomainToQueue();
+
+    await this.connection('permissions').transacting(transaction).insert({
+      perm_name: input.name,
+      perm_sub_dom_name: 'FILAS',
+      perm_dom_id: permission_domain.perm_dom_id
+    });
+  }
+
+  // #endregion
+
+  // #region Delete Methods
+
+  private async deleteTagToQueue(queue: AttendanceQueueDto, transaction: Knex.Transaction) {
+    await this.connection('tags').transacting(transaction).where('tag_name', queue.queue_tag).delete();
+  }
+
+  private async deletePermissionToQueue(queue: AttendanceQueueDto, transaction: Knex.Transaction) {
+    const permission_domain = await this.findPermissionDomainToQueue();
+
+    await this.connection('permissions')
+      .transacting(transaction)
+      .where('perm_dom_id', permission_domain.perm_dom_id)
+      .andWhere('perm_sub_dom_name', 'FILAS')
+      .andWhere('perm_name', queue.queue_name)
+      .delete();
+  }
+
+  // #endregion
+
+  // #region Private Methods
+
+  private async findPermissionDomainToQueue() {
+    const permission_domain = await this.connection('permissions_domains')
+      .select<PermissionDomainDto>('*')
+      .where('perm_dom_name', 'LIBERACAO')
+      .andWhere('perm_system_name', 'FIBER_THREE')
+      .first();
+
+    if (!permission_domain) throw new EntityNotFoundError('Domínio de permissão', 'LIBERACAO', 'nome');
+
+    return permission_domain;
+  }
+
+  // #endregion
 }

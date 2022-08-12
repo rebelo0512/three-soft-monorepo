@@ -13,6 +13,6 @@ export abstract class IAttendanceQueueRepository extends IBaseRepository {
   abstract findByName(names: string): Promise<AttendanceQueueDto | null>;
   abstract create(input: AttendanceQueueRepositoryCreateInput): Promise<AttendanceQueueDto>;
   abstract update(input: AttendanceQueueRepositoryUpdateInput): Promise<AttendanceQueueDto>;
-  abstract delete(id: number): Promise<void>;
+  abstract delete(queue: AttendanceQueueDto): Promise<void>;
 }
 /* c8 ignore stop */

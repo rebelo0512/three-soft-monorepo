@@ -2,15 +2,19 @@ import { DatabaseMysqlConnection } from '@three-soft/core-backend';
 import {
   IAttendanceQueueRepository,
   AttendanceQueueMysqlRepository,
-  AttendanceQueueSearchUseCase
+  AttendanceQueueSearchUseCase,
+  IPermissionDomainRepository,
+  PermissionDomainMysqlRepository
 } from '../../../../../../../src';
-import { cleanAttendanceQueueDB, createAttendanceQueue } from '../../../../../../helpers';
+import { cleanAttendanceQueueDB, createAttendanceQueue, createPermissionDomain } from '../../../../../../helpers';
 
 describe('AttendanceQueueSearchUseCase Integration Tests', () => {
+  let permissionDomainRepository: IPermissionDomainRepository;
   let repository: IAttendanceQueueRepository;
   let searchUseCase: AttendanceQueueSearchUseCase;
 
   beforeAll(async () => {
+    permissionDomainRepository = new PermissionDomainMysqlRepository();
     repository = new AttendanceQueueMysqlRepository();
     searchUseCase = new AttendanceQueueSearchUseCase(repository);
   });
@@ -24,9 +28,9 @@ describe('AttendanceQueueSearchUseCase Integration Tests', () => {
   });
 
   it('should return all queues filtered by name', async () => {
-    await createAttendanceQueue(repository, { name: 'Queue 01', color: '1', tag: '3' });
-    await createAttendanceQueue(repository, { name: 'Queue 02', color: '2', tag: '2' });
-    await createAttendanceQueue(repository, { name: 'Queue 11', color: '3', tag: '1' });
+    await createAttendanceQueue(repository, permissionDomainRepository, { name: 'Queue 01', color: '1', tag: '3' });
+    await createAttendanceQueue(repository, permissionDomainRepository, { name: 'Queue 02', color: '2', tag: '2' });
+    await createAttendanceQueue(repository, permissionDomainRepository, { name: 'Queue 11', color: '3', tag: '1' });
 
     const queues = await searchUseCase.execute({ name: 'Queue 0' });
 
@@ -66,9 +70,14 @@ describe('AttendanceQueueSearchUseCase Integration Tests', () => {
   });
 
   it('should return all queues if no name is provided', async () => {
-    await createAttendanceQueue(repository, { name: 'Queue 01', color: '1', tag: '3' });
-    await createAttendanceQueue(repository, { name: 'Queue 02', color: '2', tag: '2' });
-    await createAttendanceQueue(repository, { name: 'Queue 11', color: '3', tag: '1' });
+    await createPermissionDomain(permissionDomainRepository, {
+      system_name: 'FIBER_THREE',
+      name: 'LIBERACAO'
+    });
+
+    await createAttendanceQueue(repository, permissionDomainRepository, { name: 'Queue 01', color: '1', tag: '3' });
+    await createAttendanceQueue(repository, permissionDomainRepository, { name: 'Queue 02', color: '2', tag: '2' });
+    await createAttendanceQueue(repository, permissionDomainRepository, { name: 'Queue 11', color: '3', tag: '1' });
 
     const groups = await searchUseCase.execute({ name: null });
 

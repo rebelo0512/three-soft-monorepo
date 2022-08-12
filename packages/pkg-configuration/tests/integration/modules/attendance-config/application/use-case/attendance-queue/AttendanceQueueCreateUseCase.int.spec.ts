@@ -2,15 +2,19 @@ import { DatabaseMysqlConnection } from '@three-soft/core-backend';
 import {
   AttendanceQueueCreateUseCase,
   AttendanceQueueMysqlRepository,
-  IAttendanceQueueRepository
+  IAttendanceQueueRepository,
+  IPermissionDomainRepository,
+  PermissionDomainMysqlRepository
 } from '../../../../../../../src';
-import { cleanAttendanceQueueDB } from '../../../../../../helpers';
+import { cleanAttendanceQueueDB, createPermissionDomain } from '../../../../../../helpers';
 
 describe('AttendanceQueueCreateUseCase Integration Tests', () => {
+  let permissionDomainRepository: IPermissionDomainRepository;
   let repository: IAttendanceQueueRepository;
   let createUseCase: AttendanceQueueCreateUseCase;
 
   beforeAll(async () => {
+    permissionDomainRepository = new PermissionDomainMysqlRepository();
     repository = new AttendanceQueueMysqlRepository();
     createUseCase = new AttendanceQueueCreateUseCase(repository);
   });
@@ -24,6 +28,11 @@ describe('AttendanceQueueCreateUseCase Integration Tests', () => {
   });
 
   it('should create a queue ', async () => {
+    await createPermissionDomain(permissionDomainRepository, {
+      system_name: 'FIBER_THREE',
+      name: 'LIBERACAO'
+    });
+
     const queue = await createUseCase.execute({ name: 'AttendanceQueue 01', color: 'Color 01', tag: 'Tag 01' });
 
     expect(queue).toEqual({

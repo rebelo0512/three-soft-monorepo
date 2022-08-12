@@ -11,7 +11,7 @@ export class AttendanceQueueDeleteUseCase extends BaseUseCase<AttendanceQueueDel
 
     if (!queue) throw new EntityNotFoundError('Fila', input.id, 'id');
 
-    await this.repository.delete(queue.queue_id);
+    await this.repository.delete(queue);
 
     return queue;
   }
