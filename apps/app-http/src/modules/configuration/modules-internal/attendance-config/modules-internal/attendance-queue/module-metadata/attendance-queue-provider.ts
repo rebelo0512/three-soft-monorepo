@@ -7,6 +7,7 @@ import {
   IAttendanceQueueRepository,
   AttendanceQueueDeleteUseCase
 } from '@three-soft/pkg-configuration';
+import { permission_repositories_provider } from '../../../../access-control/module-metadata';
 
 export const attendance_queue_use_cases_provider = [
   {
@@ -37,6 +38,7 @@ export const attendance_queue_use_cases_provider = [
 ];
 
 export const attendance_queue_repositories_provider = [
+  ...permission_repositories_provider,
   {
     provide: IAttendanceQueueRepository.name,
     useClass: AttendanceQueueMysqlRepository

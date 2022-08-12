@@ -2,18 +2,26 @@ import { DatabaseMysqlConnection } from '@three-soft/core-backend';
 import {
   cleanAttendanceQueueDB,
   createAttendanceQueue,
-  IAttendanceQueueRepository
+  createPermissionDomain,
+  IAttendanceQueueRepository,
+  IPermissionCacheRepository,
+  IPermissionDomainRepository,
+  PermissionRedisRepository
 } from '@three-soft/pkg-configuration';
 import { AttendanceQueueController } from '../../../../../../../../../src/modules';
 import { createAttendanceQueueModule } from '../../../../../../../../helpers';
 
 describe('AttendanceQueueController Integration Tests', () => {
+  let permissionCacheRepository: PermissionRedisRepository;
+  let permissionDomainRepository: IPermissionDomainRepository;
   let controller: AttendanceQueueController;
   let repository: IAttendanceQueueRepository;
 
   beforeAll(async () => {
     const moduleRef = await createAttendanceQueueModule();
 
+    permissionCacheRepository = moduleRef.get<PermissionRedisRepository>(IPermissionCacheRepository.name);
+    permissionDomainRepository = moduleRef.get<IPermissionDomainRepository>(IPermissionDomainRepository.name);
     repository = moduleRef.get<IAttendanceQueueRepository>(IAttendanceQueueRepository.name);
     controller = moduleRef.get<AttendanceQueueController>(AttendanceQueueController);
   });
@@ -24,13 +32,14 @@ describe('AttendanceQueueController Integration Tests', () => {
 
   afterAll(async () => {
     await DatabaseMysqlConnection.destroy();
+    permissionCacheRepository.getConnection()?.disconnect();
   });
 
   describe('search', () => {
     it('should return all queues filtered by name', async () => {
-      await createAttendanceQueue(repository, { name: 'Queue 01', color: '1', tag: '3' });
-      await createAttendanceQueue(repository, { name: 'Queue 02', color: '2', tag: '2' });
-      await createAttendanceQueue(repository, { name: 'Queue 11', color: '3', tag: '1' });
+      await createAttendanceQueue(repository, permissionDomainRepository, { name: 'Queue 01', color: '1', tag: '3' });
+      await createAttendanceQueue(repository, permissionDomainRepository, { name: 'Queue 02', color: '2', tag: '2' });
+      await createAttendanceQueue(repository, permissionDomainRepository, { name: 'Queue 11', color: '3', tag: '1' });
 
       const queues = await controller.search('Queue 0');
 
@@ -70,9 +79,9 @@ describe('AttendanceQueueController Integration Tests', () => {
     });
 
     it('should return all queues if no name is provided', async () => {
-      await createAttendanceQueue(repository, { name: 'Queue 01', color: '1', tag: '3' });
-      await createAttendanceQueue(repository, { name: 'Queue 02', color: '2', tag: '2' });
-      await createAttendanceQueue(repository, { name: 'Queue 11', color: '3', tag: '1' });
+      await createAttendanceQueue(repository, permissionDomainRepository, { name: 'Queue 01', color: '1', tag: '3' });
+      await createAttendanceQueue(repository, permissionDomainRepository, { name: 'Queue 02', color: '2', tag: '2' });
+      await createAttendanceQueue(repository, permissionDomainRepository, { name: 'Queue 11', color: '3', tag: '1' });
 
       const groups = await controller.search(null);
 
@@ -108,7 +117,7 @@ describe('AttendanceQueueController Integration Tests', () => {
 
   describe('findById', () => {
     it('should return queue by id', async () => {
-      const queue = await createAttendanceQueue(repository);
+      const queue = await createAttendanceQueue(repository, permissionDomainRepository);
 
       const queue_created = await controller.findById(queue.queue_id);
 
@@ -122,6 +131,11 @@ describe('AttendanceQueueController Integration Tests', () => {
 
   describe('create', () => {
     it('should create a queue', async () => {
+      await createPermissionDomain(permissionDomainRepository, {
+        system_name: 'FIBER_THREE',
+        name: 'LIBERACAO'
+      });
+
       const queue_created = await controller.create({ name: 'Queue 01', color: '1', tag: '3' });
 
       expect(queue_created.queue).toEqual({
@@ -137,7 +151,7 @@ describe('AttendanceQueueController Integration Tests', () => {
 
   describe('update', () => {
     it('should update a queue', async () => {
-      const queue = await createAttendanceQueue(repository);
+      const queue = await createAttendanceQueue(repository, permissionDomainRepository);
 
       const queue_updated = await controller.update(queue.queue_id, {
         id: queue.queue_id,
@@ -168,6 +182,11 @@ describe('AttendanceQueueController Integration Tests', () => {
 
   describe('delete', () => {
     it('should delete a queue', async () => {
+      await createPermissionDomain(permissionDomainRepository, {
+        system_name: 'FIBER_THREE',
+        name: 'LIBERACAO'
+      });
+
       const queue = await repository.create({ name: 'Queue 01', color: '1', tag: '3' });
 
       const queue_created = await repository.findById(queue.queue_id);
