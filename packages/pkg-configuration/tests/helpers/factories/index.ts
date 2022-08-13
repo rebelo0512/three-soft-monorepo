@@ -6,3 +6,4 @@ export * from './user';
 export * from './city';
 export * from './attendanceQueue';
 export * from './attendanceTag';
+export * from './attendanceHour';
