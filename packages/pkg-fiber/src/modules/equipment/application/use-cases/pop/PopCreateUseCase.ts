@@ -16,7 +16,7 @@ export class PopCreateUseCase extends BaseUseCase<PopCreateInputDto, PopDto> {
     return this.repository.create({ ...dto, city: city.city_name });
   }
 
-  async getCity(dto: PopCreateInputDto) {
+  private async getCity(dto: PopCreateInputDto) {
     const city = await this.cityRepository.findByName(dto.city);
 
     if (!city) throw new EntityNotFoundError('Cidade', dto.city, 'nome');
