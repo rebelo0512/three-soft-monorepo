@@ -7,7 +7,14 @@ export default {
   },
   coverageProvider: 'v8',
   coverageReporters: ['json', 'lcov', 'text'],
-  coveragePathIgnorePatterns: ['node_modules', 'index.ts', '.module.ts', '(.*).js', 'tests/helpers'],
+  coveragePathIgnorePatterns: [
+    'node_modules',
+    'index.ts',
+    '.module.ts',
+    '(.*).js',
+    'I(.*)Repository.ts',
+    'tests/helpers'
+  ],
   coverageThreshold: {
     global: {
       branches: 90,
