@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { AttendanceQueueModule } from './modules-internal';
+import { AttendanceHourModule, AttendanceQueueModule, AttendanceTagModule } from './modules-internal';
 
 @Module({
-  imports: [AttendanceQueueModule]
+  imports: [AttendanceQueueModule, AttendanceTagModule, AttendanceHourModule]
 })
 export class AttendanceConfigModule {}

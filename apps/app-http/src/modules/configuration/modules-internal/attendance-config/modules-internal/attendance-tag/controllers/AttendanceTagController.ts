@@ -11,7 +11,7 @@ import {
   AttendanceTagUpdateUseCase
 } from '@three-soft/pkg-configuration';
 
-@Controller('queue')
+@Controller()
 export class AttendanceTagController {
   constructor(
     @Inject(AttendanceTagFindAllUseCase.name) private attendanceTagFindAllUseCase: AttendanceTagFindAllUseCase,

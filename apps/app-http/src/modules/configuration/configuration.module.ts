@@ -6,7 +6,10 @@ import {
   UserModule,
   AuthModule,
   CityModule,
-  AttendanceConfigModule
+  AttendanceConfigModule,
+  AttendanceQueueModule,
+  AttendanceTagModule,
+  AttendanceHourModule
 } from './modules-internal';
 
 @Module({
@@ -23,10 +26,6 @@ import {
         module: AccessControlModule
       },
       {
-        path: 'configuration/api/attendance',
-        module: AttendanceConfigModule
-      },
-      {
         path: 'configuration/api',
         module: CompanyModule
       },
@@ -41,6 +40,24 @@ import {
       {
         path: 'configuration/api',
         module: CityModule
+      },
+      {
+        path: 'configuration/api/attendance',
+        module: AttendanceConfigModule,
+        children: [
+          {
+            path: 'queue',
+            module: AttendanceQueueModule
+          },
+          {
+            path: 'tag',
+            module: AttendanceTagModule
+          },
+          {
+            path: 'hour',
+            module: AttendanceHourModule
+          }
+        ]
       }
     ])
   ]

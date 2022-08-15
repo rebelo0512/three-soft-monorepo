@@ -10,7 +10,7 @@ import {
   AttendanceQueueUpdateUseCase
 } from '@three-soft/pkg-configuration';
 
-@Controller('queue')
+@Controller()
 export class AttendanceQueueController {
   constructor(
     @Inject(AttendanceQueueSearchUseCase.name) private attendanceQueueSearchUseCase: AttendanceQueueSearchUseCase,

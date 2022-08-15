@@ -28,7 +28,7 @@ describe('AttendanceTagController Integration Tests', () => {
   });
 
   describe('findAll', () => {
-    it('must return a array of city', async () => {
+    it('must return a array of tags', async () => {
       await createAttendanceTags(repository, 3);
 
       const tags = await controller.findAll();
