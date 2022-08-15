@@ -13,6 +13,7 @@
     "all:test": "npm run -ws test",
     "all:test:coverage": "npm run -ws test:coverage",
     "pkg-configuration:run": "npm run -w @three-soft/pkg-configuration",
+    "pkg-fiber:run": "npm run -w @three-soft/pkg-fiber",
     "core-backend:run": "npm run -w @three-soft/core-backend"
   },
   "packageManager": "yarn@3.2.1",
