@@ -9,6 +9,7 @@
     "apps/*"
   ],
   "scripts": {
+    "all:build": "npm run -ws build",
     "all:test": "npm run -ws test",
     "all:test:coverage": "npm run -ws test:coverage",
     "pkg-configuration:run": "npm run -w @three-soft/pkg-configuration",
