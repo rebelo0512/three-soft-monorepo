@@ -57,7 +57,7 @@ export class AttendanceHourController {
 
     return {
       status: 'sucesso',
-      message: 'Regra excluída com sucesso',
+      message: 'Horário de Atendimento excluída com sucesso',
       att_hour
     };
   }

@@ -12,6 +12,8 @@ import {
   AttendanceHourModule
 } from './modules-internal';
 
+const prefix = 'configuration/api';
+
 @Module({
   imports: [
     UserModule,
@@ -22,27 +24,27 @@ import {
     AttendanceConfigModule,
     RouterModule.register([
       {
-        path: 'configuration/api/access_control',
+        path: `${prefix}/access_control`,
         module: AccessControlModule
       },
       {
-        path: 'configuration/api',
+        path: prefix,
         module: CompanyModule
       },
       {
-        path: 'configuration/api',
+        path: prefix,
         module: UserModule
       },
       {
-        path: 'configuration/api',
+        path: prefix,
         module: AuthModule
       },
       {
-        path: 'configuration/api',
+        path: prefix,
         module: CityModule
       },
       {
-        path: 'configuration/api/attendance',
+        path: `${prefix}/attendance`,
         module: AttendanceConfigModule,
         children: [
           {
